@@ -39,6 +39,7 @@ public class Resume extends Command {
         event.getChannel().sendMessageAsync("Resumed playback.", null);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }
