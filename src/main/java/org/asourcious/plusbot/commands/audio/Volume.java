@@ -37,7 +37,7 @@ public class Volume extends Command {
     public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
         if (args.length == 0) {
             event.getChannel().sendMessageAsync("The current volume is **" +
-                    (plusBot.getMusicPlayer(event.getGuild()).getVolume() * 100) + "**", null);
+                    (int) (plusBot.getMusicPlayer(event.getGuild()).getVolume() * 100) + "**", null);
             return;
         }
 
