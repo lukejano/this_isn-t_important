@@ -29,7 +29,7 @@ public final class FormatUtils {
         if (days > 0)
             time += days + " days, ";
         if (hours > 0)
-            time += hours + " hours,";
+            time += hours + " hours, ";
         if (minutes > 0)
             time += minutes + " minutes, ";
         time += seconds + " seconds.";
