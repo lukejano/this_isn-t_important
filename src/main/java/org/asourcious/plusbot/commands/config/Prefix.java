@@ -23,6 +23,8 @@ public class Prefix extends Command {
             return "The Prefix command takes 2 arguments!";
         if (!args[0].equalsIgnoreCase("add") && !args[0].equalsIgnoreCase("remove"))
             return "The first argument can only be add or remove!";
+        if (args[0].length() > 15)
+            return "Prefix maximum supported length is 15!";
 
         return null;
     }
