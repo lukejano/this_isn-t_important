@@ -36,6 +36,7 @@ public class Pause extends Command {
         }
 
         musicPlayer.pause();
+        event.getChannel().sendMessageAsync("Paused playback.", null);
     }
 
     @Override

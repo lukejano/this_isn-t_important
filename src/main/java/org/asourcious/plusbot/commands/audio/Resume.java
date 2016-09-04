@@ -36,6 +36,7 @@ public class Resume extends Command {
         }
 
         musicPlayer.play();
+        event.getChannel().sendMessageAsync("Resumed playback.", null);
     }
 
     public CommandDescription getDescription() {
