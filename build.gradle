@@ -13,7 +13,6 @@ dependencies {
     compile "net.dv8tion:jda-player:0.2.2_18"
     compile "commons-io:commons-io:2.5"
     compile "mysql:mysql-connector-java:6.0.3"
-    compile "net.objecthunter:exp4j:0.4.7"
 }
 
 compileJava.options.encoding = 'UTF-8'

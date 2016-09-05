@@ -16,9 +16,9 @@ public class ShardManager {
     public ShardManager(PlusBot plusBot, int numShards) throws LoginException {
         shards = new ArrayList<>();
 
-        if (numShards == 1) {
+        if (numShards == 1) { // TODO: Remove once PlusBot requires shards
             shards.add(new JDABuilder()
-                    .setBotToken(plusBot.getConfiguration().getToken(true))
+                    .setBotToken(plusBot.getConfiguration().getToken())
                     .addListener(new PlusBotEventListener(plusBot))
                     .setBulkDeleteSplittingEnabled(false)
                     .buildAsync());
@@ -27,7 +27,7 @@ public class ShardManager {
 
         for(int i = 0; i < numShards; i++) {
             shards.add(new JDABuilder()
-                    .setBotToken(plusBot.getConfiguration().getToken(true))
+                    .setBotToken(plusBot.getConfiguration().getToken())
                     .addListener(new PlusBotEventListener(plusBot))
                     .setBulkDeleteSplittingEnabled(false)
                     .useSharding(i, numShards)

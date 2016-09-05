@@ -16,10 +16,9 @@ public class DatabaseManager {
 
     public DatabaseManager() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             List<String> lines = Files.readAllLines(new File("credentials.txt").toPath(), Charset.defaultCharset());
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/discorddatabase?autoReconnect=true&useSSL=false", lines.get(0), lines.get(1));
-        } catch (ClassNotFoundException | SQLException ex) {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/discorddatabase?autoReconnect=true&useSSL=false&serverTimezone=UTC", lines.get(1), lines.get(2));
+        } catch (SQLException ex) {
             PlusBot.LOG.fatal("Error establishing connection to database");
             PlusBot.LOG.log(ex);
             System.exit(-1);
@@ -66,17 +65,5 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             PlusBot.LOG.log(ex);
         }
-    }
-
-    public String getToken(String tokenName) {
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM main WHERE data_key = '%s_token';", tokenName));
-            resultSet.next();
-            return resultSet.getString(2);
-        } catch (SQLException ex) {
-            PlusBot.LOG.log(ex);
-            System.exit(-1);
-        }
-        return null;
     }
 }

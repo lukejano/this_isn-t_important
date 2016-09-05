@@ -6,6 +6,10 @@ import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.entities.User;
 import org.asourcious.plusbot.managers.DatabaseManager;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,8 +43,14 @@ public class Configuration {
         executorService.shutdown();
     }
 
-    public String getToken(boolean isTesting) {
-        return databaseManager.getToken(isTesting ? "test" : "main");
+    public String getToken() {
+        try {
+            return Files.readAllLines(new File("credentials.txt").toPath(), Charset.defaultCharset()).get(0);
+        } catch (IOException e) {
+            PlusBot.LOG.log(e);
+            System.exit(-1);
+        }
+        return null;
     }
 
     public void addUserToBlacklist(User user, Guild guild) {
