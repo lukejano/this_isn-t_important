@@ -22,6 +22,7 @@ import org.asourcious.plusbot.commands.config.Prefix;
 import org.asourcious.plusbot.commands.fun.Triggered;
 import org.asourcious.plusbot.commands.help.CommandInfo;
 import org.asourcious.plusbot.commands.help.Help;
+import org.asourcious.plusbot.commands.help.Invite;
 import org.asourcious.plusbot.commands.maintenance.Clean;
 import org.asourcious.plusbot.commands.maintenance.Ping;
 import org.asourcious.plusbot.commands.maintenance.Shard;
@@ -93,6 +94,7 @@ public class PlusBot {
 
         CommandRegistry.registerCommand("CommandInfo", new CommandInfo());
         CommandRegistry.registerCommand("Help", new Help());
+        CommandRegistry.registerCommand("Invite", new Invite());
         CommandRegistry.registerAlias("Help", "Commands");
         CommandRegistry.registerAlias("Help", "CommandList");
 
