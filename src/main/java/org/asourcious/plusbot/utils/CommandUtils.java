@@ -48,11 +48,12 @@ public final class CommandUtils {
                 currentArg.append(ch);
             }
         }
+        String name = null;
         if (currentArg.length() > 0) {
             args.add(currentArg.toString());
+            name = args.get(0);
+            args.remove(0);
         }
-        String name = args.get(0);
-        args.remove(0);
 
         return new CommandManager.CommandContainer(name, args.toArray(new String[args.size()]));
     }
