@@ -39,7 +39,7 @@ public class Status extends Command {
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendString(PlusBot.NAME + " Status:\n");
         messageBuilder.appendString("```xl\n");
-        messageBuilder.appendString("Name: " + PlusBot.NAME + " (ID: " + PlusBot.ID + ")\n");
+        messageBuilder.appendString("Name: " + PlusBot.NAME + "\n");
         messageBuilder.appendString("Version " + PlusBot.VERSION + "\n");
         messageBuilder.appendString("Uptime: " + FormatUtils.getFormattedTime(elapsedMillis) + "\n");
         messageBuilder.appendString("Threads: " + Thread.activeCount() + "\n");
