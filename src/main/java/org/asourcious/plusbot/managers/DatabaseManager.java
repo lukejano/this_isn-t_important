@@ -24,7 +24,9 @@ public class DatabaseManager {
             PlusBot.LOG.log(ex);
             System.exit(-1);
         } catch (IOException e) {
-            e.printStackTrace();
+            PlusBot.LOG.fatal("Error accessing credentials file");
+            PlusBot.LOG.log(e);
+            System.exit(-1);
         }
     }
 
