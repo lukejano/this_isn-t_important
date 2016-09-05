@@ -34,8 +34,13 @@ public class Blacklist extends Command {
         if (args[0].equalsIgnoreCase("add")) {
             for (User user : event.getMessage().getMentionedUsers()) {
                 if (!plusBot.getConfiguration().getBlacklist(event.getGuild()).contains(event.getAuthor().getId())) {
-                    plusBot.getConfiguration().addUserToBlacklist(user, event.getGuild());
-                    numUpdated++;
+                    if (PermissionLevel.getPermissionLevel(event.getAuthor(), event.getGuild()).getValue()
+                            > PermissionLevel.getPermissionLevel(user, event.getGuild()).getValue()) {
+                        plusBot.getConfiguration().addUserToBlacklist(user, event.getGuild());
+                        numUpdated++;
+                    } else {
+                        event.getChannel().sendMessageAsync("You don't have the necessary permissions to add **" + user.getUsername() + "** to the blacklist", null);
+                    }
                 }
             }
             event.getChannel().sendMessageAsync("Successfully added **" + numUpdated + "** users to the blacklist.", null);
