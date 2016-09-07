@@ -8,7 +8,6 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.CommandUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,18 +35,12 @@ public class Clean extends Command {
         List<Message> toRemove = messages.parallelStream().filter(message -> CommandUtils.isValidCommand(message, plusBot)
                         || event.getJDA().getSelfInfo().equals(message.getAuthor())).collect(Collectors.toList());
 
-        List<Message> current = new ArrayList<>();
-        int numRemoved = 0;
+        int numRemoved = toRemove.size();
 
-        for (Message message : toRemove) {
-            current.add(message);
-            numRemoved++;
-        }
-        numRemoved+= current.size();
-        if (current.size() > 1)
-            event.getTextChannel().deleteMessages(current);
+        if (toRemove.size() > 1)
+            event.getTextChannel().deleteMessages(toRemove);
         else if (toRemove.size() > 0)
-            current.get(0).deleteMessage();
+            toRemove.get(0).deleteMessage();
 
         event.getChannel().sendMessageAsync("Removed **" + numRemoved + "** messages.", null);
     }
