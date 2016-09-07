@@ -17,22 +17,22 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Play extends Command {
+public class PlaylistCommand extends Command {
 
     private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private CommandDescription description = new CommandDescription(
-            "Play",
-            "Adds an audio source to the queue",
-            "play (Youtube URL)",
-            new Argument[] { new Argument("The URL of the audio source", true) },
+            "Playlist",
+            "Adds an audio source playlist to the queue",
+            "play (Youtube PlaylistCommand URL)",
+            new Argument[] { new Argument("The URL of the audio source playlist", true) },
             PermissionLevel.EVERYONE
     );
 
     @Override
     public String checkArgs(String[] args) {
         if (args.length != 1)
-            return "The Play command only takes one argument!";
+            return "The PlaylistCommand command only takes one argument!";
 
         return null;
     }
@@ -46,26 +46,24 @@ public class Play extends Command {
             Playlist playlist = Playlist.getPlaylist(args[0]);
             List<AudioSource> sources = playlist.getSources();
 
-            if (sources.size() > 1) {
-                event.getChannel().sendMessageAsync(FormatUtils.error("Found a playlist. If you want to add a playlist to the audio queue, use the Playlist command"), null);
-                return;
-            }
-
-            try {
-                musicPlayer.getAudioQueue().add(sources.get(0));
-                executorService.submit(sources.get(0)::getInfo);
-                event.getChannel().sendMessageAsync("Successfully added **" + sources.get(0).getInfo().getTitle() + "** to queue.", null);
-                if (musicPlayer.isStopped())
-                    musicPlayer.play();
-            } catch (Exception ex) {
-                event.getChannel().sendMessageAsync(FormatUtils.error("Could not add " + sources.get(0).getInfo().getTitle() + " to queue."), null);
-                PlusBot.LOG.log(ex);
+            for (AudioSource source : sources) {
+                try {
+                    musicPlayer.getAudioQueue().add(source);
+                    event.getChannel().sendMessageAsync("Successfully added **" + source.getInfo().getTitle() + "** to queue.", null);
+                    executorService.submit(source::getInfo);
+                    if (musicPlayer.isStopped())
+                        musicPlayer.play();
+                } catch(Exception e) {
+                    event.getChannel().sendMessageAsync(FormatUtils.error("Could not add song to queue."), null);
+                    PlusBot.LOG.log(e);
+                }
             }
         } catch (NullPointerException | JSONException ex) {
             event.getChannel().sendMessageAsync(FormatUtils.error("Invalid URL: " + args[0]), null);
         }
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

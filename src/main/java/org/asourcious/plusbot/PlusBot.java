@@ -11,6 +11,7 @@ import org.asourcious.plusbot.commands.audio.Join;
 import org.asourcious.plusbot.commands.audio.Leave;
 import org.asourcious.plusbot.commands.audio.Pause;
 import org.asourcious.plusbot.commands.audio.Play;
+import org.asourcious.plusbot.commands.audio.PlaylistCommand;
 import org.asourcious.plusbot.commands.audio.Queue;
 import org.asourcious.plusbot.commands.audio.Resume;
 import org.asourcious.plusbot.commands.audio.Skip;
@@ -79,6 +80,7 @@ public class PlusBot {
         CommandRegistry.registerAlias("Leave", "Unsummon");
         CommandRegistry.registerCommand("Pause", new Pause());
         CommandRegistry.registerCommand("Play", new Play());
+        CommandRegistry.registerCommand("Playlist", new PlaylistCommand());
         CommandRegistry.registerCommand("Queue", new Queue());
         CommandRegistry.registerCommand("Resume", new Resume());
         CommandRegistry.registerCommand("Skip", new Skip());
