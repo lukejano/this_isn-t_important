@@ -17,12 +17,18 @@ public class MusicPlayerEventListener extends PlayerListenerAdapter {
 
     @Override
     public void onNext(NextEvent event) {
-        statusUpdateChannel.sendMessageAsync("Now playing " + FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer()), null);
+        String name = FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer());
+
+        if (name != null)
+            statusUpdateChannel.sendMessageAsync("Now playing " + name, null);
     }
 
     @Override
     public void onSkip(SkipEvent event) {
-        statusUpdateChannel.sendMessageAsync("Now playing " + FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer()), null);
+        String name = FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer());
+
+        if (name != null)
+            statusUpdateChannel.sendMessageAsync("Now playing " + name, null);
     }
 
     public void setStatusUpdateChannel(TextChannel channel) {

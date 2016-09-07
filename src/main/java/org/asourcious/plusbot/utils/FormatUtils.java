@@ -12,6 +12,9 @@ public final class FormatUtils {
     }
 
     public static String getFormattedSongName(MusicPlayer player) {
+        if (player.getCurrentAudioSource() == null)
+            return null;
+
         return "**" +  player.getCurrentAudioSource().getInfo().getTitle() + "**";
     }
 
