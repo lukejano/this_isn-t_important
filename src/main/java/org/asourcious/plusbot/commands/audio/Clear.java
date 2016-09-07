@@ -28,6 +28,7 @@ public class Clear extends Command {
     public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
         plusBot.getMusicPlayer(event.getGuild()).getAudioQueue().clear();
         plusBot.getMusicPlayer(event.getGuild()).skipToNext();
+        event.getChannel().sendMessageAsync("Cleared the audio queue.", null);
     }
 
     @Override
