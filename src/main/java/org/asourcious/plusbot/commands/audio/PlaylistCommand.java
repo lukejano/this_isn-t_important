@@ -14,12 +14,8 @@ import org.asourcious.plusbot.utils.FormatUtils;
 import org.json.JSONException;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class PlaylistCommand extends Command {
-
-    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private CommandDescription description = new CommandDescription(
             "Playlist",
@@ -50,7 +46,6 @@ public class PlaylistCommand extends Command {
                 try {
                     musicPlayer.getAudioQueue().add(source);
                     event.getChannel().sendMessageAsync("Successfully added **" + source.getInfo().getTitle() + "** to queue.", null);
-                    executorService.submit(source::getInfo);
                     if (musicPlayer.isStopped())
                         musicPlayer.play();
                 } catch(Exception e) {
