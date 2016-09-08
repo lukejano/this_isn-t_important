@@ -14,7 +14,7 @@ public class Prefix extends Command {
             "Modifies currently used prefixes in this server",
             "prefix add /",
             new Argument[] { new Argument("Add / Remove", true), new Argument("prefix", true) },
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

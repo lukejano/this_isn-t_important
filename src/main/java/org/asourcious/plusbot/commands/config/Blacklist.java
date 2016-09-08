@@ -15,7 +15,7 @@ public class Blacklist extends Command {
             "Adds and removes people from this server's blacklist. This prevents them from using any command.",
             "blacklist add @spammer",
             new Argument[] { new Argument("Add/remove", true) },
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

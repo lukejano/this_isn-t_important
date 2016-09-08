@@ -15,7 +15,7 @@ public class Resume extends Command {
             "Resumes playback of the queue",
             "resume",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

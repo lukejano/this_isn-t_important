@@ -9,8 +9,9 @@ import org.asourcious.plusbot.PlusBot;
 public enum PermissionLevel {
 
     EVERYONE(0),
-    MODERATOR(1),
-    OWNER(2);
+    SERVER_MODERATOR(1),
+    SERVER_OWNER(2),
+    OWNER(3);
 
     private final int value;
 
@@ -27,7 +28,7 @@ public enum PermissionLevel {
             return PermissionLevel.OWNER;
 
         if (PermissionUtil.checkPermission(guild, user, Permission.MANAGE_SERVER))
-            return PermissionLevel.MODERATOR;
+            return PermissionLevel.SERVER_MODERATOR;
 
         return PermissionLevel.EVERYONE;
     }
@@ -37,8 +38,10 @@ public enum PermissionLevel {
         switch (this) {
             case EVERYONE:
                 return "Everyone";
-            case MODERATOR:
-                return "Moderator";
+            case SERVER_MODERATOR:
+                return "Server moderator";
+            case SERVER_OWNER:
+                return "Server owner";
             case OWNER:
                 return "Owner";
             default:

@@ -15,7 +15,7 @@ public class Pause extends Command {
             "Pauses the music queue",
             "pause",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

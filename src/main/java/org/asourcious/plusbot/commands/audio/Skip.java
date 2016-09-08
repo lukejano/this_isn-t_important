@@ -14,7 +14,7 @@ public class Skip extends Command {
             "Skips the current audio source in the queue",
             "skip",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

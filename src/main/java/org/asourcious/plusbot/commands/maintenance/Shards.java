@@ -18,7 +18,7 @@ public class Shards extends Command {
             "Returns details of all of " + PlusBot.NAME + "'s shards",
             "shards",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.EVERYONE
     );
 
     @Override

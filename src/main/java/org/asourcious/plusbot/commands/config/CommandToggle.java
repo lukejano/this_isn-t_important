@@ -15,7 +15,7 @@ public class CommandToggle extends Command {
             "Enables and disables commands in this server or channel",
             "command server disable skip",
             new Argument[] { new Argument("Server / Channel", true), new Argument("Enable / Disable", true), new Argument("Command name", true) },
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

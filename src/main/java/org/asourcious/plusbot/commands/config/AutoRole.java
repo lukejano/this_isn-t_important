@@ -17,7 +17,7 @@ public class AutoRole extends Command {
                     + "\nYou can make the role mentionable under Server Settings -> Roles -> Your role -> Allow anyone to @mention this role",
             "autorole human add @Role",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

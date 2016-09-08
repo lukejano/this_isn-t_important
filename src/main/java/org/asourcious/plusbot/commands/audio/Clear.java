@@ -13,7 +13,7 @@ public class Clear extends Command {
             "Clears all audio sources from the Music Player",
             "clear",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override

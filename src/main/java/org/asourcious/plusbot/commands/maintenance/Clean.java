@@ -18,7 +18,7 @@ public class Clean extends Command {
             "Removes all commands and responses in the last 100 messages",
             "clean",
             null,
-            PermissionLevel.MODERATOR
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override
