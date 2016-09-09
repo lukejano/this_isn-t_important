@@ -33,7 +33,7 @@ public class DatabaseManager {
         HashMap<String, List<String>> cache = new HashMap<>();
 
         try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(String.format("SELECT * FROM %s", tableName));
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
 
             while (resultSet.next()) {
                 String containerID = resultSet.getString(2);
@@ -53,7 +53,7 @@ public class DatabaseManager {
 
     public void addEntryToTable(String containerID, String entryID, String table) {
         try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("INSERT INTO %s (container_id, entry_id) VALUES ('%s', '%s');", table, containerID, entryID));
+            statement.execute("INSERT INTO " + table + " (container_id, entry_id) VALUES ('" + containerID +"', '" + entryID + "');");
         } catch (SQLException ex) {
             PlusBot.LOG.log(ex);
         }
@@ -61,7 +61,7 @@ public class DatabaseManager {
 
     public void removeEntryFromTable(String containerID, String entryID, String table) {
         try (Statement statement = connection.createStatement()) {
-            statement.execute(String.format("DELETE FROM %s WHERE container_id = '%s' AND entry_id = '%s'", table, containerID, entryID));
+            statement.execute("DELETE FROM " + table + " WHERE container_id = '" + containerID + "' AND entry_id = '" + entryID + "'");
         } catch (SQLException ex) {
             PlusBot.LOG.log(ex);
         }
