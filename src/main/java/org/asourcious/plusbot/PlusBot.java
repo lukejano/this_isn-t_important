@@ -55,10 +55,16 @@ public class PlusBot {
     private ShardManager shardManager;
     private HashMap<String, MusicPlayer> guildMusicPlayers;
 
-    public PlusBot() {
-        startTime = System.currentTimeMillis();
-        configuration = new Configuration();
-        guildMusicPlayers = new HashMap<>();
+    private PlusBot() {}
+
+    public static PlusBot newPlusBot() throws LoginException {
+        PlusBot plusBot = new PlusBot();
+        plusBot.startTime = System.currentTimeMillis();
+        plusBot.configuration = new Configuration();
+        plusBot.guildMusicPlayers = new HashMap<>();
+        plusBot.shardManager = new ShardManager(plusBot, 1);
+
+        return plusBot;
     }
 
     public static void main(String[] args) throws IOException, LoginException {
@@ -70,8 +76,7 @@ public class PlusBot {
         LOG.info("JDA Version: " + JDAInfo.VERSION);
         LOG.info("JDA-Player Version: " + JDAPlayerInfo.VERSION);
 
-        PlusBot plusBot = new PlusBot();
-        plusBot.shardManager = new ShardManager(plusBot, 1);
+        newPlusBot();
 
         CommandRegistry.registerCommand("Clear", new Clear());
         CommandRegistry.registerCommand("Join", new Join());
