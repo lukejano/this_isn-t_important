@@ -41,7 +41,7 @@ import java.util.HashMap;
 public class PlusBot {
 
     public static final String NAME = "PlusBot";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "1.1";
     public static final String OWNER_ID = "142843635057164288";
 
     public static final SimpleLog LOG = SimpleLog.getLog("PlusBot");
