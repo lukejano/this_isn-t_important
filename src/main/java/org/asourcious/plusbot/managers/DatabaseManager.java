@@ -18,13 +18,8 @@ public class DatabaseManager {
         try {
             List<String> lines = Files.readAllLines(new File("credentials.txt").toPath(), Charset.defaultCharset());
             connection = DriverManager.getConnection("jdbc:mysql://localhost/discorddatabase?autoReconnect=true&useSSL=false&serverTimezone=UTC", lines.get(1), lines.get(2));
-        } catch (SQLException ex) {
-            PlusBot.LOG.fatal("Error establishing connection to database");
+        } catch (SQLException | IOException ex) {
             PlusBot.LOG.log(ex);
-            System.exit(-1);
-        } catch (IOException e) {
-            PlusBot.LOG.fatal("Error accessing credentials file");
-            PlusBot.LOG.log(e);
             System.exit(-1);
         }
     }
