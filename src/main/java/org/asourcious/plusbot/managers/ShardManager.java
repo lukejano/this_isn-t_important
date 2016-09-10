@@ -7,6 +7,7 @@ import org.asourcious.plusbot.events.PlusBotEventListener;
 
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ShardManager {
@@ -36,7 +37,7 @@ public class ShardManager {
     }
 
     public List<JDA> getShards() {
-        return shards;
+        return Collections.unmodifiableList(shards);
     }
 
     public int getNumberOfGuilds() {
