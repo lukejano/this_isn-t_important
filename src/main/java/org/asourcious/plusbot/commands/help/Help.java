@@ -32,7 +32,7 @@ public class Help extends Command {
         List<CommandRegistry.CommandEntry> commandEntries = CommandRegistry.getRegisteredCommands();
 
         MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.appendString("The current commands available to you are:\n```xl\n");
+        messageBuilder.appendString("The current commands available to you in **" + event.getGuild().getName() + "** are:\n```xl\n");
 
         for (int i = 0; i < commandEntries.size(); i++) {
             CommandRegistry.CommandEntry entry = commandEntries.get(i);
