@@ -15,7 +15,7 @@ public class PlusBotEventListener extends ListenerAdapter {
 
     public PlusBotEventListener(PlusBot plusBot) {
         commandManager = new CommandManager(plusBot);
-        autoRoleManager = new AutoRoleManager(plusBot);
+        autoRoleManager = new AutoRoleManager(plusBot.getConfiguration());
     }
 
     @Override
