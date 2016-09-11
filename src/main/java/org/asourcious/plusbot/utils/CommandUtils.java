@@ -55,11 +55,11 @@ public final class CommandUtils {
     }
 
     public static boolean isValidCommand(Message message, PlusBot plusBot) {
-        String prefix = CommandUtils.getPrefixForMessage(plusBot, message);
+        String prefix = getPrefixForMessage(plusBot, message);
         if (prefix == null)
             return false;
 
-        CommandManager.CommandContainer commandContainer = CommandUtils.getArgsForMessage(message.getRawContent(), prefix);
+        CommandManager.CommandContainer commandContainer = getArgsForMessage(message.getRawContent(), prefix);
 
         return CommandRegistry.hasCommand(commandContainer.name)
                 && CommandRegistry.getCommand(commandContainer.name).getCommand().checkArgs(commandContainer.args) == null;
