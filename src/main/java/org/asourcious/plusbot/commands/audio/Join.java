@@ -7,6 +7,7 @@ import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
+import org.asourcious.plusbot.utils.FormatUtils;
 
 public class Join extends Command {
 
@@ -31,11 +32,17 @@ public class Join extends Command {
         VoiceChannel voiceChannel = event.getGuild().getVoiceStatusOfUser(event.getAuthor()).getChannel();
 
         if (voiceChannel == null) {
-            event.getChannel().sendMessageAsync("```Error: you are not in a valid voice channel```", null);
+            event.getChannel().sendMessageAsync(FormatUtils.error("You are not in a valid voice channel!"), null);
             return;
         }
 
         AudioManager audioManager = event.getJDA().getAudioManager(event.getGuild());
+
+        if (audioManager.isConnected()) {
+            event.getChannel().sendMessageAsync("I'm already in a voice channel! Use the move command instead!", null);
+            return;
+        }
+
         audioManager.openAudioConnection(voiceChannel);
         audioManager.setSendingHandler(plusBot.getMusicPlayer(event.getGuild()));
         plusBot.getMusicPlayer(event.getGuild()).setVolume(0.5f);
@@ -47,5 +54,4 @@ public class Join extends Command {
     public CommandDescription getDescription() {
         return description;
     }
-
 }
