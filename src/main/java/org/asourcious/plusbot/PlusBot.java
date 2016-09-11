@@ -38,7 +38,8 @@ import org.asourcious.plusbot.managers.ShardManager;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlusBot {
 
@@ -55,7 +56,7 @@ public class PlusBot {
     private int numCommands;
     private Configuration configuration;
     private ShardManager shardManager;
-    private HashMap<String, MusicPlayer> guildMusicPlayers;
+    private Map<String, MusicPlayer> guildMusicPlayers;
 
     private PlusBot() {}
 
@@ -63,7 +64,7 @@ public class PlusBot {
         PlusBot plusBot = new PlusBot();
         plusBot.startTime = System.currentTimeMillis();
         plusBot.configuration = new Configuration();
-        plusBot.guildMusicPlayers = new HashMap<>();
+        plusBot.guildMusicPlayers = new ConcurrentHashMap<>();
         plusBot.shardManager = new ShardManager(plusBot, 1);
 
         return plusBot;
