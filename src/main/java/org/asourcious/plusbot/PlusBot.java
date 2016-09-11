@@ -20,6 +20,7 @@ import org.asourcious.plusbot.commands.config.AutoRole;
 import org.asourcious.plusbot.commands.config.Blacklist;
 import org.asourcious.plusbot.commands.config.CommandToggle;
 import org.asourcious.plusbot.commands.config.Prefix;
+import org.asourcious.plusbot.commands.fun.RIP;
 import org.asourcious.plusbot.commands.fun.Triggered;
 import org.asourcious.plusbot.commands.help.CommandInfo;
 import org.asourcious.plusbot.commands.help.Help;
@@ -96,6 +97,7 @@ public class PlusBot {
         CommandRegistry.registerCommand("Command", new CommandToggle());
         CommandRegistry.registerCommand("Prefix", new Prefix());
 
+        CommandRegistry.registerCommand("RIP", new RIP());
         CommandRegistry.registerCommand("Triggered", new Triggered());
 
         CommandRegistry.registerCommand("CommandInfo", new CommandInfo());
