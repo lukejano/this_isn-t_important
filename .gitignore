@@ -10,5 +10,5 @@ META-INF/
 
 #Other stuff
 credentials.txt
-/out.log
-/err.log
+out.log
+err.log
