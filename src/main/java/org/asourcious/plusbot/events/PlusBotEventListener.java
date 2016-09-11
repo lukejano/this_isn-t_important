@@ -35,6 +35,6 @@ public class PlusBotEventListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-        autoRoleManager.handleMemberJoin(event);
+        autoRoleManager.handleMemberJoin(event.getGuild(), event.getUser());
     }
 }

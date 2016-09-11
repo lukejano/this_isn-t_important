@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.managers;
 
+import net.dv8tion.jda.entities.Guild;
 import net.dv8tion.jda.entities.Role;
-import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.managers.GuildManager;
 import org.asourcious.plusbot.Configuration;
 
@@ -15,39 +16,39 @@ public class AutoRoleManager {
         this.configuration = configuration;
     }
 
-    public void handleMemberJoin(GuildMemberJoinEvent event) {
-        List<String> humanRoleIds = configuration.getAutoHumanRoles(event.getGuild());
-        List<String> botRoleIds = configuration.getAutoBotRoles(event.getGuild());
+    public void handleMemberJoin(Guild guild, User user) {
+        List<String> humanRoleIds = configuration.getAutoHumanRoles(guild);
+        List<String> botRoleIds = configuration.getAutoBotRoles(guild);
 
-        if (humanRoleIds.isEmpty() && !event.getUser().isBot())
+        if (humanRoleIds.isEmpty() && !user.isBot())
             return;
-        if (botRoleIds.isEmpty() && event.getUser().isBot())
+        if (botRoleIds.isEmpty() && user.isBot())
             return;
 
-        List<Role> humanRoles = compileRoleList(humanRoleIds, event);
-        List<Role> botRoles = compileRoleList(botRoleIds, event);
+        List<Role> humanRoles = compileRoleList(humanRoleIds, guild, user);
+        List<Role> botRoles = compileRoleList(botRoleIds, guild, user);
 
-        GuildManager guildManager = event.getGuild().getManager();
-        if (event.getUser().isBot()) {
-            guildManager.addRoleToUser(event.getUser(), botRoles.toArray(new Role[botRoles.size()]));
+        GuildManager guildManager = guild.getManager();
+        if (user.isBot()) {
+            guildManager.addRoleToUser(user, botRoles.toArray(new Role[botRoles.size()]));
         } else {
-            guildManager.addRoleToUser(event.getUser(), humanRoles.toArray(new Role[humanRoles.size()]));
+            guildManager.addRoleToUser(user, humanRoles.toArray(new Role[humanRoles.size()]));
         }
         guildManager.update();
     }
 
-    private List<Role> compileRoleList(List<String> ids, GuildMemberJoinEvent event) {
+    private List<Role> compileRoleList(List<String> ids, Guild guild, User user) {
         List<Role> roles = new ArrayList<>();
         for (String id : ids) {
-            if (event.getGuild().getRoleById(id) == null) {
-                if (event.getUser().isBot()) {
-                    configuration.removeAutoBotRole(event.getGuild(), id);
+            if (guild.getRoleById(id) == null) {
+                if (user.isBot()) {
+                    configuration.removeAutoBotRole(guild, id);
                 } else {
-                    configuration.removeAutoHumanRole(event.getGuild(), id);
+                    configuration.removeAutoHumanRole(guild, id);
                 }
                 continue;
             }
-            roles.add(event.getGuild().getRoleById(id));
+            roles.add(guild.getRoleById(id));
         }
         return roles;
     }
