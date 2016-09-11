@@ -41,38 +41,18 @@ public class ShardManager {
     }
 
     public int getNumberOfGuilds() {
-        int num = 0;
-        for (JDA jda : shards) {
-            num += jda.getGuilds().size();
-        }
-
-        return num;
+        return shards.parallelStream().map(jda -> jda.getGuilds().size()).reduce(0, Integer::sum);
     }
 
     public int getNumberOfTextChannels() {
-        int num = 0;
-        for (JDA jda : shards) {
-            num += jda.getTextChannels().size();
-        }
-
-        return num;
+        return shards.parallelStream().map(jda -> jda.getTextChannels().size()).reduce(0, Integer::sum);
     }
 
     public int getNumberOfVoiceChannels() {
-        int num = 0;
-        for (JDA jda : shards) {
-            num += jda.getVoiceChannels().size();
-        }
-
-        return num;
+        return shards.parallelStream().map(jda -> jda.getVoiceChannels().size()).reduce(0, Integer::sum);
     }
 
     public int getNumberOfUsers() {
-        int num = 0;
-        for (JDA jda : shards) {
-            num += jda.getUsers().size();
-        }
-
-        return num;
+        return shards.parallelStream().map(jda -> jda.getUsers().size()).reduce(0, Integer::sum);
     }
 }
