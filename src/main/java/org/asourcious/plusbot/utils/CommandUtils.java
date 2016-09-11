@@ -2,6 +2,7 @@ package org.asourcious.plusbot.utils;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
+import org.apache.commons.lang3.StringUtils;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.CommandRegistry;
 import org.asourcious.plusbot.managers.CommandManager;
@@ -34,26 +35,21 @@ public final class CommandUtils {
 
         for (char ch : formattedMessage.toCharArray()) {
             if (Character.isWhitespace(ch) && !isInQuote) {
-                if (currentArg.length() > 0) {
-                    args.add(currentArg.toString());
-                    currentArg = new StringBuilder();
-                }
+                args.add(currentArg.toString());
+                currentArg.setLength(0);
             } else if (ch == '"') {
                 isInQuote = !isInQuote;
-                if (currentArg.length() > 0) {
-                    args.add(currentArg.toString());
-                    currentArg = new StringBuilder();
-                }
+                args.add(currentArg.toString());
+                currentArg.setLength(0);
             } else {
                 currentArg.append(ch);
             }
         }
-        String name = null;
-        if (currentArg.length() > 0) {
-            args.add(currentArg.toString());
-            name = args.get(0);
-            args.remove(0);
-        }
+
+        args.add(currentArg.toString());
+        args.removeIf(StringUtils::isBlank);
+        String name = args.get(0);
+        args.remove(0);
 
         return new CommandManager.CommandContainer(name, args.toArray(new String[args.size()]));
     }
