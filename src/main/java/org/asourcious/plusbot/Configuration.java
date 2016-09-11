@@ -12,8 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,12 +21,12 @@ public class Configuration {
 
     private DatabaseManager databaseManager;
     private ExecutorService executorService;
-    private HashMap<String, List<String>> blacklistCache;
-    private HashMap<String, List<String>> prefixCache;
-    private HashMap<String, List<String>> guildDisabledCommandsCache;
-    private HashMap<String, List<String>> channelDisabledCommandsCache;
-    private HashMap<String, List<String>> autoHumanRoleCache;
-    private HashMap<String, List<String>> autoBotRoleCache;
+    private Map<String, List<String>> blacklistCache;
+    private Map<String, List<String>> prefixCache;
+    private Map<String, List<String>> guildDisabledCommandsCache;
+    private Map<String, List<String>> channelDisabledCommandsCache;
+    private Map<String, List<String>> autoHumanRoleCache;
+    private Map<String, List<String>> autoBotRoleCache;
 
     public Configuration() {
         executorService = Executors.newSingleThreadExecutor();

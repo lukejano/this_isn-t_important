@@ -6,10 +6,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DatabaseManager {
     private Connection connection;
@@ -24,8 +28,8 @@ public class DatabaseManager {
         }
     }
 
-    public HashMap<String, List<String>> loadDataFromTable(String tableName) {
-        HashMap<String, List<String>> cache = new HashMap<>();
+    public ConcurrentHashMap<String, List<String>> loadDataFromTable(String tableName) {
+        ConcurrentHashMap<String, List<String>> cache = new ConcurrentHashMap<>();
 
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + tableName);
