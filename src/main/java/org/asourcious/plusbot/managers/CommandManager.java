@@ -5,6 +5,7 @@ import net.dv8tion.jda.exceptions.PermissionException;
 import net.dv8tion.jda.utils.PermissionUtil;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.asourcious.plusbot.PlusBot;
+import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.CommandRegistry;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.CommandUtils;
@@ -67,7 +68,7 @@ public class CommandManager {
         PlusBot.LOG.debug("Executing command " + command.getName() + " with args " + Arrays.toString(commandContainer.args));
         executorService.submit(() -> {
             try {
-                plusBot.setNumCommands(plusBot.getNumCommands() + 1);
+                Statistics.numCommands++;
                 command.getCommand().execute(plusBot, commandContainer.args, event);
             } catch (PermissionException ex) {
                 if (PermissionUtil.canTalk(event.getTextChannel()))

@@ -3,6 +3,7 @@ package org.asourcious.plusbot.commands.maintenance;
 import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import org.asourcious.plusbot.PlusBot;
+import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
@@ -34,7 +35,7 @@ public class Status extends Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        long elapsedMillis = System.currentTimeMillis() - plusBot.getStartTime();
+        long elapsedMillis = System.currentTimeMillis() - Statistics.startTime;
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendString(PlusBot.NAME + " Status:\n");
@@ -50,8 +51,8 @@ public class Status extends Command {
         messageBuilder.appendString("Text Channels: " + plusBot.getShardManager().getNumberOfTextChannels() + "\n");
         messageBuilder.appendString("Voice Channels: " + plusBot.getShardManager().getNumberOfVoiceChannels() + "\n");
         messageBuilder.appendString("Users: " + plusBot.getShardManager().getNumberOfUsers() + "\n");
-        messageBuilder.appendString("Connections: " + plusBot.getNumConnections() + "\n");
-        messageBuilder.appendString("Commands: " + plusBot.getNumCommands() + "\n");
+        messageBuilder.appendString("Connections: " + Statistics.numConnections + "\n");
+        messageBuilder.appendString("Commands: " + Statistics.numCommands + "\n");
         messageBuilder.appendString("```");
 
         event.getChannel().sendMessageAsync(messageBuilder.build(), null);

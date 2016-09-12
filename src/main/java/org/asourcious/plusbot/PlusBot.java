@@ -51,9 +51,6 @@ public class PlusBot {
     public static final File LOG_OUT_FILE = new File("out.log");
     public static final File LOG_ERR_FILE = new File("err.log");
 
-    private long startTime;
-    private int numConnections;
-    private int numCommands;
     private Configuration configuration;
     private ShardManager shardManager;
     private Map<String, MusicPlayer> guildMusicPlayers;
@@ -62,7 +59,6 @@ public class PlusBot {
 
     public static PlusBot newPlusBot() throws LoginException {
         PlusBot plusBot = new PlusBot();
-        plusBot.startTime = System.currentTimeMillis();
         plusBot.configuration = new Configuration();
         plusBot.guildMusicPlayers = new ConcurrentHashMap<>();
         plusBot.shardManager = new ShardManager(plusBot, 1);
@@ -119,26 +115,6 @@ public class PlusBot {
 
     public void shutdown() {
         configuration.shutdown();
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public int getNumConnections() {
-        return numConnections;
-    }
-
-    public void setNumConnections(int val) {
-        numConnections = val;
-    }
-
-    public int getNumCommands() {
-        return numCommands;
-    }
-
-    public void setNumCommands(int val) {
-        numCommands = val;
     }
 
     public ShardManager getShardManager() {

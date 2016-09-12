@@ -4,6 +4,7 @@ import net.dv8tion.jda.entities.VoiceChannel;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 import org.asourcious.plusbot.PlusBot;
+import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
@@ -47,7 +48,7 @@ public class Join extends Command {
         audioManager.setSendingHandler(plusBot.getMusicPlayer(event.getGuild()));
         plusBot.getMusicPlayer(event.getGuild()).setVolume(0.5f);
         event.getChannel().sendMessageAsync("Joined voice channel **" + voiceChannel.getName() + "**", null);
-        plusBot.setNumConnections(plusBot.getNumConnections() + 1);
+        Statistics.numConnections++;
     }
 
     @Override

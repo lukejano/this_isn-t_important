@@ -3,6 +3,7 @@ package org.asourcious.plusbot.commands.audio;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 import org.asourcious.plusbot.PlusBot;
+import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
@@ -32,7 +33,7 @@ public class Leave extends Command {
         String channelName = audioManager.getConnectedChannel().getName();
         audioManager.closeAudioConnection();
         event.getChannel().sendMessageAsync("Left voice channel **" + channelName + "**", null);
-        plusBot.setNumConnections(plusBot.getNumConnections() - 1);
+        Statistics.numConnections--;
     }
 
     @Override
