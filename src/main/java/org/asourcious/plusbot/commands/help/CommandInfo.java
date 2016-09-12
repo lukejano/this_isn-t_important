@@ -47,6 +47,7 @@ public class CommandInfo extends Command {
                 .appendString("\n\n")
                 .appendString("Example:\n")
                 .appendString(description.getExample())
+                .appendString("\n\n")
                 .appendString("Required Permissions:\n")
                 .appendString(description.getRequiredPermissions().toString())
                 .appendString("```");
