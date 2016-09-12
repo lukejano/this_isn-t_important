@@ -39,17 +39,17 @@ public class AutoRoleManager {
 
     private List<Role> compileRoleList(List<String> ids, Guild guild, User user) {
         List<Role> roles = new ArrayList<>();
-        for (String id : ids) {
+        ids.parallelStream().forEach(id -> {
             if (guild.getRoleById(id) == null) {
                 if (user.isBot()) {
                     configuration.removeAutoBotRole(guild, id);
                 } else {
                     configuration.removeAutoHumanRole(guild, id);
                 }
-                continue;
+            } else {
+                roles.add(guild.getRoleById(id));
             }
-            roles.add(guild.getRoleById(id));
-        }
+        });
         return roles;
     }
 }
