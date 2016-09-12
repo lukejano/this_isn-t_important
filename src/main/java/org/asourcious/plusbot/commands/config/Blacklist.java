@@ -7,6 +7,9 @@ import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
+import org.asourcious.plusbot.utils.CommandUtils;
+
+import java.util.List;
 
 public class Blacklist extends Command {
 
@@ -21,7 +24,7 @@ public class Blacklist extends Command {
     @Override
     public String checkArgs(String[] args) {
         if (args.length != 1)
-            return "The Blacklist command only takes on argument!";
+            return "The Blacklist command only takes one argument!";
         if (!args[0].equalsIgnoreCase("add") && !args[0].equalsIgnoreCase("remove"))
             return "The only acceptable args are \"Add\" and \"Remove\"";
 
@@ -31,6 +34,12 @@ public class Blacklist extends Command {
     @Override
     public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
         int numUpdated = 0;
+        List<User> toAdd = event.getMessage().getMentionedUsers();
+
+        if (CommandUtils.getPrefixForMessage(plusBot, event.getMessage()).equals(event.getJDA().getSelfInfo().getAsMention()))
+            toAdd.remove(event.getJDA().getSelfInfo());
+
+        toAdd.remove(event.getJDA().getSelfInfo());
         if (args[0].equalsIgnoreCase("add")) {
             for (User user : event.getMessage().getMentionedUsers()) {
                 if (!plusBot.getConfiguration().getBlacklist(event.getGuild()).contains(event.getAuthor().getId())) {
