@@ -13,7 +13,7 @@ public class Prefix extends Command {
             "Prefix",
             "Modifies currently used prefixes in this server",
             "prefix add /",
-            new Argument[] { new Argument("Add / Remove", true), new Argument("prefix", true) },
+            new Argument[] { new Argument("Add / Remove / Clear", true), new Argument("prefix", true) },
             PermissionLevel.SERVER_MODERATOR
     );
 
@@ -21,9 +21,9 @@ public class Prefix extends Command {
     public String checkArgs(String[] args) {
         if (args.length != 2)
             return "The Prefix command takes 2 arguments!";
-        if (!args[0].equalsIgnoreCase("add") && !args[0].equalsIgnoreCase("remove"))
+        if (!args[0].equalsIgnoreCase("add") && !args[0].equalsIgnoreCase("remove") && !args[0].equalsIgnoreCase("clear"))
             return "The first argument can only be add or remove!";
-        if (args[0].length() > 15)
+        if (args[1].length() > 15)
             return "Prefix maximum supported length is 15!";
 
         return null;
@@ -37,15 +37,24 @@ public class Prefix extends Command {
                 return;
             }
 
+            if (plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).size() >= 15) {
+                event.getChannel().sendMessageAsync("This server already has the maximum number of prefixes, delete some to add more.", null);
+                return;
+            }
+
             plusBot.getConfiguration().addPrefixToGuild(args[1], event.getGuild());
             event.getChannel().sendMessageAsync("Added prefix **" + args[1] + "**", null);
-        } else {
+        } else if (args[0].equalsIgnoreCase("remove")) {
             if (!plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).contains(args[1])) {
                 event.getChannel().sendMessageAsync("That prefix doesn't exist!", null);
                 return;
             }
             plusBot.getConfiguration().removePrefixFromGuild(args[1], event.getGuild());
             event.getChannel().sendMessageAsync("Removed prefix **" + args[1] + "**", null);
+        } else {
+            plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).forEach(prefix ->
+                    plusBot.getConfiguration().removePrefixFromGuild(prefix, event.getGuild())
+            );
         }
     }
 
