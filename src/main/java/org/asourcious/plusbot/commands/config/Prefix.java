@@ -57,6 +57,7 @@ public class Prefix extends Command {
             plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).forEach(prefix ->
                     plusBot.getConfiguration().removePrefixFromGuild(prefix, event.getGuild())
             );
+            event.getChannel().sendMessageAsync("Cleared prefixes", null);
         }
     }
 
