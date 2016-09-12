@@ -32,6 +32,7 @@ public class Shutdown extends Command {
         plusBot.getShardManager().getShards().forEach(JDA::shutdown);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

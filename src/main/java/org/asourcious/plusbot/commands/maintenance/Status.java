@@ -57,6 +57,7 @@ public class Status extends Command {
         event.getChannel().sendMessageAsync(messageBuilder.build(), null);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

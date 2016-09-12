@@ -61,6 +61,7 @@ public class Play extends Command {
         }
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

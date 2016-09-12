@@ -32,6 +32,7 @@ public class Skip extends Command {
         event.getChannel().sendMessageAsync("Skipped " + songName, null);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

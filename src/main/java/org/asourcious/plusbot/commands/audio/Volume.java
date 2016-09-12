@@ -48,6 +48,7 @@ public class Volume extends Command {
         event.getChannel().sendMessageAsync("Updated volume from **" + oldVolume + "** to **" + volume + "**", null);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

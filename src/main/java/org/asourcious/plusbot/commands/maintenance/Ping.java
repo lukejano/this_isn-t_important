@@ -35,6 +35,7 @@ public class Ping extends Command {
         });
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }

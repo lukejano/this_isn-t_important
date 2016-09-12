@@ -55,6 +55,7 @@ public class Queue extends Command {
         event.getChannel().sendMessageAsync(queueString.toString(), null);
     }
 
+    @Override
     public CommandDescription getDescription() {
         return description;
     }
