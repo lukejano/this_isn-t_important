@@ -45,7 +45,7 @@ public class Help extends Command {
             messageBuilder.appendString((i + 1) + ") " + entry.getName() + "\n");
         }
         messageBuilder.appendString("```\n");
-        messageBuilder.appendString("If you need any further help, join https://discord.gg/jXjJNMc and ask for assistance");
+        messageBuilder.appendString("If you need any further help, join https://www.discord.gg/dFwYEb7 and ask for assistance");
 
         event.getAuthor().getPrivateChannel().sendMessageAsync(messageBuilder.build(), null);
         //event.getChannel().sendMessageAsync("", null);
