@@ -13,7 +13,7 @@ public class Prefix extends Command {
             "Prefix",
             "Modifies currently used prefixes in this server",
             "prefix add /",
-            new Argument[] { new Argument("Add / Remove / Clear", true), new Argument("prefix", true) },
+            new Argument[] { new Argument("Add / Remove / Clear", true), new Argument("prefix", false) },
             PermissionLevel.SERVER_MODERATOR
     );
 
