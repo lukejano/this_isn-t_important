@@ -25,7 +25,7 @@ public class Prefix extends Command {
             return "You need two arguments if you are not clearing the prefixes!";
         if (!args[0].equalsIgnoreCase("add") && !args[0].equalsIgnoreCase("remove") && !args[0].equalsIgnoreCase("clear"))
             return "The first argument can only be add or remove!";
-        if (args[1].length() > 15)
+        if (args.length == 2 && args[1].length() > 15)
             return "Prefix maximum supported length is 15!";
 
         return null;
