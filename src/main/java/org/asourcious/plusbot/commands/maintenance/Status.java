@@ -1,7 +1,9 @@
 package org.asourcious.plusbot.commands.maintenance;
 
+import com.sun.management.OperatingSystemMXBean;
 import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import org.apache.commons.math3.util.Precision;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.Command;
@@ -10,8 +12,6 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
 import java.lang.management.ManagementFactory;
-import com.sun.management.OperatingSystemMXBean;
-
 
 public class Status extends Command {
 
@@ -44,7 +44,7 @@ public class Status extends Command {
         messageBuilder.appendString("Version " + PlusBot.VERSION + "\n");
         messageBuilder.appendString("Uptime: " + FormatUtils.getFormattedTime(elapsedMillis) + "\n");
         messageBuilder.appendString("Threads: " + Thread.activeCount() + "\n");
-        messageBuilder.appendString("CPU Usage: " + systemMXBean.getProcessCpuLoad() * 100 + "%\n");
+        messageBuilder.appendString("CPU Usage: " + Precision.round(systemMXBean.getProcessCpuLoad() * 100, 2) + "%\n");
         messageBuilder.appendString("RAM Usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576 + "MB\n\n");
         messageBuilder.appendString("JDA Info:\n");
         messageBuilder.appendString("Guilds: " + plusBot.getShardManager().getNumberOfGuilds() + "\n");
