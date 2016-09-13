@@ -48,7 +48,7 @@ public class Help extends Command {
         messageBuilder.appendString("If you need any further help, join https://www.discord.gg/dFwYEb7 and ask for assistance");
 
         event.getAuthor().getPrivateChannel().sendMessageAsync(messageBuilder.build(), null);
-        //event.getChannel().sendMessageAsync("", null);
+        event.getChannel().sendMessageAsync(event.getAuthor().getAsMention() + ", help has been sent to your DM's.", null);
     }
 
     @Override
