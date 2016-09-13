@@ -28,8 +28,8 @@ public class Skip extends Command {
     @Override
     public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
         String songName = FormatUtils.getFormattedSongName(plusBot.getMusicPlayer(event.getGuild()));
+        event.getChannel().sendMessageAsync("Skipping " + songName, null);
         plusBot.getMusicPlayer(event.getGuild()).skipToNext();
-        event.getChannel().sendMessageAsync("Skipped " + songName, null);
     }
 
     @Override
