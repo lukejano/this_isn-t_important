@@ -3,7 +3,6 @@ package org.asourcious.plusbot.managers;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.exceptions.PermissionException;
 import net.dv8tion.jda.utils.PermissionUtil;
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.CommandRegistry;
@@ -11,21 +10,13 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.CommandUtils;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CommandManager {
 
     private PlusBot plusBot;
-    private ExecutorService executorService;
 
     public CommandManager(PlusBot plusBot) {
         this.plusBot = plusBot;
-
-        executorService = Executors.newCachedThreadPool(new BasicThreadFactory.Builder()
-                .namingPattern("Command thread %d")
-                .daemon(true)
-                .build());
     }
 
     public void parseMessage(MessageReceivedEvent event) {
@@ -66,15 +57,14 @@ public class CommandManager {
         }
 
         PlusBot.LOG.debug("Executing command " + command.getName() + " with args " + Arrays.toString(commandContainer.args));
-        executorService.submit(() -> {
-            try {
-                Statistics.numCommands++;
-                command.getCommand().execute(plusBot, commandContainer.args, event);
-            } catch (PermissionException ex) {
-                if (PermissionUtil.canTalk(event.getTextChannel()))
-                    event.getChannel().sendMessageAsync("I don't have the necessary permissions for this command!", null);
-            }
-        });
+
+        try {
+            Statistics.numCommands++;
+            command.getCommand().execute(plusBot, commandContainer.args, event);
+        } catch (PermissionException ex) {
+            if (PermissionUtil.canTalk(event.getTextChannel()))
+                event.getChannel().sendMessageAsync("I don't have the necessary permissions for this command!", null);
+        }
     }
 
     public static class CommandContainer {
