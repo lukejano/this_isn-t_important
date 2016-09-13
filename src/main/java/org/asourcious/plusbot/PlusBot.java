@@ -21,6 +21,7 @@ import org.asourcious.plusbot.commands.config.AutoRole;
 import org.asourcious.plusbot.commands.config.Blacklist;
 import org.asourcious.plusbot.commands.config.CommandToggle;
 import org.asourcious.plusbot.commands.config.Prefix;
+import org.asourcious.plusbot.commands.fun.Google;
 import org.asourcious.plusbot.commands.fun.RIP;
 import org.asourcious.plusbot.commands.fun.Triggered;
 import org.asourcious.plusbot.commands.help.CommandInfo;
@@ -34,12 +35,16 @@ import org.asourcious.plusbot.commands.maintenance.Shutdown;
 import org.asourcious.plusbot.commands.maintenance.Status;
 import org.asourcious.plusbot.events.MusicPlayerEventListener;
 import org.asourcious.plusbot.managers.ShardManager;
+import org.asourcious.plusbot.web.GoogleSearcher;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class PlusBot {
 
@@ -51,19 +56,23 @@ public class PlusBot {
     public static final File LOG_OUT_FILE = new File("out.log");
     public static final File LOG_ERR_FILE = new File("err.log");
 
-    private Configuration configuration;
+    private GoogleSearcher googleSearcher;
+
     private ShardManager shardManager;
+    private Configuration configuration;
     private Map<String, MusicPlayer> guildMusicPlayers;
 
-    private PlusBot() {}
+    private ScheduledExecutorService cacheCleaner;
 
-    public static PlusBot newPlusBot() throws LoginException {
-        PlusBot plusBot = new PlusBot();
-        plusBot.configuration = new Configuration();
-        plusBot.guildMusicPlayers = new ConcurrentHashMap<>();
-        plusBot.shardManager = new ShardManager(plusBot, 1);
+    public void init() throws LoginException {
+        configuration = new Configuration();
+        shardManager = new ShardManager(this, 1);
+        guildMusicPlayers = new ConcurrentHashMap<>();
+        googleSearcher = new GoogleSearcher();
 
-        return plusBot;
+        cacheCleaner = Executors.newSingleThreadScheduledExecutor();
+
+        cacheCleaner.scheduleAtFixedRate(() -> googleSearcher.cleanCache(), 4, 4, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) throws IOException, LoginException {
@@ -75,13 +84,12 @@ public class PlusBot {
         LOG.info("JDA Version: " + JDAInfo.VERSION);
         LOG.info("JDA-Player Version: " + JDAPlayerInfo.VERSION);
 
-        newPlusBot();
+        PlusBot plusBot = new PlusBot();
+        plusBot.init();
 
         CommandRegistry.registerCommand("Clear", new Clear());
         CommandRegistry.registerCommand("Join", new Join());
-        CommandRegistry.registerAlias("Join", "Summon");
         CommandRegistry.registerCommand("Leave", new Leave());
-        CommandRegistry.registerAlias("Leave", "Unsummon");
         CommandRegistry.registerCommand("Move", new Move());
         CommandRegistry.registerCommand("Pause", new Pause());
         CommandRegistry.registerCommand("Play", new Play());
@@ -90,14 +98,18 @@ public class PlusBot {
         CommandRegistry.registerCommand("Resume", new Resume());
         CommandRegistry.registerCommand("Skip", new Skip());
         CommandRegistry.registerCommand("Volume", new Volume());
+        CommandRegistry.registerAlias("Join", "Summon");
+        CommandRegistry.registerAlias("Leave", "Unsummon");
 
         CommandRegistry.registerCommand("AutoRole", new AutoRole());
         CommandRegistry.registerCommand("Blacklist", new Blacklist());
         CommandRegistry.registerCommand("Command", new CommandToggle());
         CommandRegistry.registerCommand("Prefix", new Prefix());
 
+        CommandRegistry.registerCommand("Google", new Google(plusBot.googleSearcher));
         CommandRegistry.registerCommand("RIP", new RIP());
         CommandRegistry.registerCommand("Triggered", new Triggered());
+        CommandRegistry.registerAlias("Google", "g");
 
         CommandRegistry.registerCommand("CommandInfo", new CommandInfo());
         CommandRegistry.registerCommand("Help", new Help());
@@ -114,6 +126,7 @@ public class PlusBot {
     }
 
     public void shutdown() {
+        cacheCleaner.shutdown();
         configuration.shutdown();
     }
 
