@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.managers;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.exceptions.PermissionException;
 import net.dv8tion.jda.utils.PermissionUtil;
 import org.asourcious.plusbot.PlusBot;
@@ -19,40 +20,40 @@ public class CommandManager {
         this.plusBot = plusBot;
     }
 
-    public void parseMessage(MessageReceivedEvent event) {
-        String prefix = CommandUtils.getPrefixForMessage(plusBot, event.getMessage());
+    public void parseMessage(TextChannel channel, Message message) {
+        String prefix = CommandUtils.getPrefixForMessage(plusBot, message);
 
         if (prefix == null)
             return;
-        if (plusBot.getConfiguration().getBlacklist(event.getGuild()).contains(event.getAuthor().getId()))
+        if (plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(message.getAuthor().getId()))
             return;
 
-        CommandContainer commandContainer = CommandUtils.getArgsForMessage(event.getMessage().getRawContent(), prefix);
+        CommandContainer commandContainer = CommandUtils.getArgsForMessage(message.getRawContent(), prefix);
 
         if (!CommandRegistry.hasCommand(commandContainer.name))
             return;
 
         CommandRegistry.CommandEntry command = CommandRegistry.getCommand(commandContainer.name);
 
-        if (command.getCommand().getDescription().getRequiredPermissions().getValue() > PermissionLevel.getPermissionLevel(event.getAuthor(), event.getGuild()).getValue()) {
-            event.getChannel().sendMessageAsync("You don't have the permissions for this command!", null);
+        if (command.getCommand().getDescription().getRequiredPermissions().getValue() > PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue()) {
+            channel.sendMessageAsync("You don't have the permissions for this command!", null);
             return;
         }
 
         String argCheck = command.getCommand().checkArgs(commandContainer.args);
 
         if (argCheck != null) {
-            event.getChannel().sendMessageAsync("```Invalid args: " + argCheck + "```", null);
+            channel.sendMessageAsync("```Invalid args: " + argCheck + "```", null);
             return;
         }
 
-        if (plusBot.getConfiguration().getDisabledCommands(event.getGuild()).contains(commandContainer.name)) {
-            event.getChannel().sendMessageAsync("That command is disabled in this server!", null);
+        if (plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(commandContainer.name)) {
+            channel.sendMessageAsync("That command is disabled in this server!", null);
             return;
         }
 
-        if (plusBot.getConfiguration().getDisabledCommands(event.getTextChannel()).contains(commandContainer.name)) {
-            event.getChannel().sendMessageAsync("That command is disabled in this channel!", null);
+        if (plusBot.getConfiguration().getDisabledCommands(channel).contains(commandContainer.name)) {
+            channel.sendMessageAsync("That command is disabled in this channel!", null);
             return;
         }
 
@@ -60,10 +61,10 @@ public class CommandManager {
 
         try {
             Statistics.numCommands++;
-            command.getCommand().execute(plusBot, commandContainer.args, event);
+            command.getCommand().execute(plusBot, commandContainer.args, channel, message);
         } catch (PermissionException ex) {
-            if (PermissionUtil.canTalk(event.getTextChannel()))
-                event.getChannel().sendMessageAsync("I don't have the necessary permissions for this command!", null);
+            if (PermissionUtil.canTalk(channel))
+                channel.sendMessageAsync("I don't have the necessary permissions for this command!", null);
         }
     }
 

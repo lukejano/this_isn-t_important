@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.managers.AudioManager;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
@@ -27,12 +28,12 @@ public class Leave extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        AudioManager audioManager = event.getJDA().getAudioManager(event.getGuild());
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        AudioManager audioManager = message.getJDA().getAudioManager(channel.getGuild());
 
         String channelName = audioManager.getConnectedChannel().getName();
         audioManager.closeAudioConnection();
-        event.getChannel().sendMessageAsync("Left voice channel **" + channelName + "**", null);
+        channel.sendMessageAsync("Left voice channel **" + channelName + "**", null);
         Statistics.numConnections--;
     }
 

@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.player.MusicPlayer;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
@@ -27,16 +28,16 @@ public class Resume extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        MusicPlayer musicPlayer = plusBot.getMusicPlayer(event.getGuild());
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        MusicPlayer musicPlayer = plusBot.getMusicPlayer(channel.getGuild());
 
         if (musicPlayer.isPlaying()) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("MusicPlayer already playing!"), null);
+            channel.sendMessageAsync(FormatUtils.error("MusicPlayer already playing!"), null);
             return;
         }
 
         musicPlayer.play();
-        event.getChannel().sendMessageAsync("Resumed playback.", null);
+        channel.sendMessageAsync("Resumed playback.", null);
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.maintenance;
 
 import net.dv8tion.jda.JDA;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -26,8 +27,8 @@ public class Shutdown extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        event.getChannel().sendMessage("Shutting down...");
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        channel.sendMessage("Shutting down...");
         plusBot.shutdown();
         plusBot.getShardManager().getShards().forEach(JDA::shutdown);
     }

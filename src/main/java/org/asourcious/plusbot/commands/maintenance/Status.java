@@ -2,7 +2,8 @@ package org.asourcious.plusbot.commands.maintenance;
 
 import com.sun.management.OperatingSystemMXBean;
 import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.apache.commons.math3.util.Precision;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
@@ -20,7 +21,7 @@ public class Status extends Command {
             "Returns information about " + PlusBot.NAME,
             "status",
             null,
-            PermissionLevel.EVERYONE
+            PermissionLevel.SERVER_MODERATOR
     );
 
     private OperatingSystemMXBean systemMXBean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
@@ -34,7 +35,7 @@ public class Status extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         long elapsedMillis = System.currentTimeMillis() - Statistics.startTime;
 
         MessageBuilder messageBuilder = new MessageBuilder();
@@ -56,7 +57,7 @@ public class Status extends Command {
                 .appendString("Users: " + plusBot.getShardManager().getNumberOfUsers() + "\n")
                 .appendString("```");
 
-        event.getChannel().sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(messageBuilder.build(), null);
     }
 
     @Override

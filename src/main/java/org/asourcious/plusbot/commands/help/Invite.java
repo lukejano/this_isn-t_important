@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.help;
 
 import net.dv8tion.jda.Permission;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -25,9 +26,9 @@ public class Invite extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        event.getChannel().sendMessageAsync("To add me to your server, click this:\n"
-                + event.getJDA().getSelfInfo().getAuthUrl(Permission.ADMINISTRATOR)
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        channel.sendMessageAsync("To add me to your server, click this:\n"
+                + message.getJDA().getSelfInfo().getAuthUrl(Permission.ADMINISTRATOR)
                 + "\nRemember to give me the permissions I need so that I will work properly!", null);
     }
 

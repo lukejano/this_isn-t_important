@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.config;
 
+import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.Role;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -33,35 +34,35 @@ public class AutoRole extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        List<Role> roles = event.getMessage().getMentionedRoles();
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        List<Role> roles = message.getMentionedRoles();
         if (roles.size() > 5) {
-            event.getChannel().sendMessageAsync("Only 5 auto roles are allowed to be modified at once", null);
+            channel.sendMessageAsync("Only 5 auto roles are allowed to be modified at once", null);
             return;
         }
 
         if (args[0].equalsIgnoreCase("human")) {
             if (args[1].equalsIgnoreCase("add")) {
                 roles.parallelStream()
-                        .filter(role -> !plusBot.getConfiguration().getAutoHumanRoles(event.getGuild()).contains(role.getId()))
-                        .forEach(role -> plusBot.getConfiguration().addAutoHumanRole(event.getGuild(), role));
+                        .filter(role -> !plusBot.getConfiguration().getAutoHumanRoles(channel.getGuild()).contains(role.getId()))
+                        .forEach(role -> plusBot.getConfiguration().addAutoHumanRole(channel.getGuild(), role));
             } else {
                 roles.parallelStream()
-                        .filter(role -> plusBot.getConfiguration().getAutoHumanRoles(event.getGuild()).contains(role.getId()))
-                        .forEach(role -> plusBot.getConfiguration().removeAutoHumanRole(event.getGuild(), role.getId()));
+                        .filter(role -> plusBot.getConfiguration().getAutoHumanRoles(channel.getGuild()).contains(role.getId()))
+                        .forEach(role -> plusBot.getConfiguration().removeAutoHumanRole(channel.getGuild(), role.getId()));
             }
         } else {
             if (args[1].equalsIgnoreCase("add")) {
                 roles.parallelStream()
-                        .filter(role -> !plusBot.getConfiguration().getAutoBotRoles(event.getGuild()).contains(role.getId()))
-                        .forEach(role -> plusBot.getConfiguration().addAutoBotRole(event.getGuild(), role));
+                        .filter(role -> !plusBot.getConfiguration().getAutoBotRoles(channel.getGuild()).contains(role.getId()))
+                        .forEach(role -> plusBot.getConfiguration().addAutoBotRole(channel.getGuild(), role));
             } else {
                 roles.parallelStream()
-                        .filter(role -> plusBot.getConfiguration().getAutoBotRoles(event.getGuild()).contains(role.getId()))
-                        .forEach(role -> plusBot.getConfiguration().removeAutoBotRole(event.getGuild(), role.getId()));
+                        .filter(role -> plusBot.getConfiguration().getAutoBotRoles(channel.getGuild()).contains(role.getId()))
+                        .forEach(role -> plusBot.getConfiguration().removeAutoBotRole(channel.getGuild(), role.getId()));
             }
         }
-        event.getChannel().sendMessageAsync("Successfully updated auto roles", null);
+        channel.sendMessageAsync("Successfully updated auto roles", null);
     }
 
     @Override

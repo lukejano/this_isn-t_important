@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.audio;
 
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.entities.VoiceChannel;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.managers.AudioManager;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
@@ -29,25 +30,25 @@ public class Join extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        VoiceChannel voiceChannel = event.getGuild().getVoiceStatusOfUser(event.getAuthor()).getChannel();
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        VoiceChannel voiceChannel = channel.getGuild().getVoiceStatusOfUser(message.getAuthor()).getChannel();
 
         if (voiceChannel == null) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("You are not in a valid voice channel!"), null);
+            channel.sendMessageAsync(FormatUtils.error("You are not in a valid voice channel!"), null);
             return;
         }
 
-        AudioManager audioManager = event.getJDA().getAudioManager(event.getGuild());
+        AudioManager audioManager = channel.getJDA().getAudioManager(channel.getGuild());
 
         if (audioManager.isConnected()) {
-            event.getChannel().sendMessageAsync("I'm already in a voice channel! Use the move command instead!", null);
+            channel.sendMessageAsync("I'm already in a voice channel! Use the move command instead!", null);
             return;
         }
 
         audioManager.openAudioConnection(voiceChannel);
-        audioManager.setSendingHandler(plusBot.getMusicPlayer(event.getGuild()));
-        plusBot.getMusicPlayer(event.getGuild()).setVolume(0.5f);
-        event.getChannel().sendMessageAsync("Joined voice channel **" + voiceChannel.getName() + "**", null);
+        audioManager.setSendingHandler(plusBot.getMusicPlayer(channel.getGuild()));
+        plusBot.getMusicPlayer(channel.getGuild()).setVolume(0.5f);
+        channel.sendMessageAsync("Joined voice channel **" + voiceChannel.getName() + "**", null);
         Statistics.numConnections++;
     }
 

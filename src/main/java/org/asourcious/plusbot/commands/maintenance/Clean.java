@@ -1,7 +1,7 @@
 package org.asourcious.plusbot.commands.maintenance;
 
 import net.dv8tion.jda.entities.Message;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -30,19 +30,19 @@ public class Clean extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        List<Message> messages = event.getTextChannel().getHistory().retrieve();
-        List<Message> toRemove = messages.parallelStream().filter(message -> CommandUtils.isValidCommand(message, plusBot)
-                        || event.getJDA().getSelfInfo().equals(message.getAuthor())).collect(Collectors.toList());
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        List<Message> toRemove = channel.getHistory().retrieve()
+                .parallelStream().filter(msg -> CommandUtils.isValidCommand(msg, plusBot)
+                        || message.getJDA().getSelfInfo().equals(msg.getAuthor())).collect(Collectors.toList());
 
         int numRemoved = toRemove.size();
 
         if (toRemove.size() > 1)
-            event.getTextChannel().deleteMessages(toRemove);
+            channel.deleteMessages(toRemove);
         else if (toRemove.size() > 0)
             toRemove.get(0).deleteMessage();
 
-        event.getChannel().sendMessageAsync("Removed **" + numRemoved + "** messages.", null);
+        channel.sendMessageAsync("Removed **" + numRemoved + "** messages.", null);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.fun;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -29,8 +30,8 @@ public class Triggered extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        event.getChannel().sendFileAsync(new File("media/triggered" + (random.nextInt(3) + 1) + ".gif"), null, null);
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        channel.sendFileAsync(new File("media/triggered" + (random.nextInt(3) + 1) + ".gif"), null, null);
     }
 
     @Override

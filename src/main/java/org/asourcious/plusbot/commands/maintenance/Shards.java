@@ -2,7 +2,8 @@ package org.asourcious.plusbot.commands.maintenance;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -18,7 +19,7 @@ public class Shards extends Command {
             "Returns details of all of " + PlusBot.NAME + "'s shards",
             "shards",
             null,
-            PermissionLevel.EVERYONE
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override
@@ -29,7 +30,7 @@ public class Shards extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         MessageBuilder messageBuilder = new MessageBuilder();
         ShardManager shardManager = plusBot.getShardManager();
         List<JDA> shards = shardManager.getShards();
@@ -58,7 +59,7 @@ public class Shards extends Command {
         );
         messageBuilder.appendString("\n```");
 
-        event.getChannel().sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(messageBuilder.build(), null);
     }
 
     @Override

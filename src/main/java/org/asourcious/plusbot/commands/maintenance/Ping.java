@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.maintenance;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -15,7 +16,7 @@ public class Ping extends Command {
             "Checks the response time of " + PlusBot.NAME,
             "ping",
             null,
-            PermissionLevel.EVERYONE
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override
@@ -27,10 +28,10 @@ public class Ping extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        event.getChannel().sendMessageAsync("Ping: ...", message -> {
-            if(message != null) {
-                message.updateMessageAsync("Ping: " + event.getMessage().getTime().until(message.getTime(), ChronoUnit.MILLIS) + "ms", null);
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        channel.sendMessageAsync("Ping: ...", msg -> {
+            if(msg != null) {
+                msg.updateMessageAsync("Ping: " + message.getTime().until(msg.getTime(), ChronoUnit.MILLIS) + "ms", null);
             }
         });
     }

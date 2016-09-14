@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.fun;
 
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
@@ -44,23 +45,23 @@ public class RIP extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        if (args.length == 0 && !event.getMessage().getMentionedUsers().stream().anyMatch(user -> !user.equals(event.getJDA().getSelfInfo()))) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("If no arguments are supplied, you must mention a user!"), null);
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        if (args.length == 0 && !message.getMentionedUsers().stream().anyMatch(user -> !user.equals(message.getJDA().getSelfInfo()))) {
+            channel.sendMessageAsync(FormatUtils.error("If no arguments are supplied, you must mention a user!"), null);
             return;
         }
 
-        List<User> mentionedUsers = new ArrayList<>(event.getMessage().getMentionedUsers());
-        if (CommandUtils.getPrefixForMessage(plusBot, event.getMessage()).equals(event.getJDA().getSelfInfo().getAsMention()))
-            mentionedUsers.remove(event.getJDA().getSelfInfo());
+        List<User> mentionedUsers = new ArrayList<>(message.getMentionedUsers());
+        if (CommandUtils.getPrefixForMessage(plusBot, message).equals(message.getJDA().getSelfInfo().getAsMention()))
+            mentionedUsers.remove(message.getJDA().getSelfInfo());
 
         if (mentionedUsers.size() > 1) {
-            event.getChannel().sendMessageAsync("You can only mention one user!", null);
+            channel.sendMessageAsync("You can only mention one user!", null);
             return;
         }
 
         String text = args.length == 0
-                ? event.getGuild().getEffectiveNameForUser(mentionedUsers.get(0))
+                ? channel.getGuild().getEffectiveNameForUser(mentionedUsers.get(0))
                 : args[0];
 
         try {
@@ -82,7 +83,7 @@ public class RIP extends Command {
             try {
                 BufferedImage avatar = null;
                 if (!mentionedUsers.isEmpty()) {
-                    InputStream stream = MiscUtils.getDataStream(event.getJDA(), mentionedUsers.get(0).getAvatarUrl());
+                    InputStream stream = MiscUtils.getDataStream(channel.getJDA(), mentionedUsers.get(0).getAvatarUrl());
                     if(stream != null) {
                         avatar = ImageIO.read(stream);
                     }
@@ -97,9 +98,9 @@ public class RIP extends Command {
             ImageIO.write(image, "png", file);
 
             final File toDelete = file;
-            event.getChannel().sendFileAsync(file, null, msg -> toDelete.delete());
+            channel.sendFileAsync(file, null, msg -> toDelete.delete());
         } catch (IOException e) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("Error generating tombstone!"), null);
+            channel.sendMessageAsync(FormatUtils.error("Error generating tombstone!"), null);
         }
     }
 

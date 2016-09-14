@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
@@ -34,18 +35,18 @@ public class Volume extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         if (args.length == 0) {
-            event.getChannel().sendMessageAsync("The current volume is **" +
-                    (int) (plusBot.getMusicPlayer(event.getGuild()).getVolume() * 100) + "**", null);
+            channel.sendMessageAsync("The current volume is **" +
+                    (int) (plusBot.getMusicPlayer(channel.getGuild()).getVolume() * 100) + "**", null);
             return;
         }
 
         int volume = NumberUtils.toInt(args[0]);
-        int oldVolume = (int) (plusBot.getMusicPlayer(event.getGuild()).getVolume() * 100);
+        int oldVolume = (int) (plusBot.getMusicPlayer(channel.getGuild()).getVolume() * 100);
 
-        plusBot.getMusicPlayer(event.getGuild()).setVolume(volume / 100f);
-        event.getChannel().sendMessageAsync("Updated volume from **" + oldVolume + "** to **" + volume + "**", null);
+        plusBot.getMusicPlayer(channel.getGuild()).setVolume(volume / 100f);
+        channel.sendMessageAsync("Updated volume from **" + oldVolume + "** to **" + volume + "**", null);
     }
 
     @Override

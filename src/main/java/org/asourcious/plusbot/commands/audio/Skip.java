@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -26,10 +27,10 @@ public class Skip extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        String songName = FormatUtils.getFormattedSongName(plusBot.getMusicPlayer(event.getGuild()));
-        event.getChannel().sendMessageAsync("Skipping " + songName, null);
-        plusBot.getMusicPlayer(event.getGuild()).skipToNext();
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        String songName = FormatUtils.getFormattedSongName(plusBot.getMusicPlayer(channel.getGuild()));
+        channel.sendMessageAsync("Skipping " + songName, null);
+        plusBot.getMusicPlayer(channel.getGuild()).skipToNext();
     }
 
     @Override

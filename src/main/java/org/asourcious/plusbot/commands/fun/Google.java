@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.fun;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
@@ -33,15 +34,15 @@ public class Google extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         String result = searcher.search(args[0]);
 
         if (result == null) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("Error searching google!"), null);
+            channel.sendMessageAsync(FormatUtils.error("Error searching google!"), null);
             return;
         }
 
-        event.getChannel().sendMessageAsync(result, null);
+        channel.sendMessageAsync(result, null);
     }
 
     @Override

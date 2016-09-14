@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.player.MusicPlayer;
 import net.dv8tion.jda.player.Playlist;
 import net.dv8tion.jda.player.source.AudioSource;
@@ -34,9 +35,9 @@ public class PlaylistCommand extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        MusicPlayer musicPlayer = plusBot.getMusicPlayer(event.getGuild());
-        ((MusicPlayerEventListener) musicPlayer.getListeners().get(0)).setStatusUpdateChannel(event.getTextChannel());
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        MusicPlayer musicPlayer = plusBot.getMusicPlayer(channel.getGuild());
+        ((MusicPlayerEventListener) musicPlayer.getListeners().get(0)).setStatusUpdateChannel(channel);
 
         try {
             Playlist playlist = Playlist.getPlaylist(args[0]);
@@ -45,16 +46,16 @@ public class PlaylistCommand extends Command {
             for (AudioSource source : sources) {
                 try {
                     musicPlayer.getAudioQueue().add(source);
-                    event.getChannel().sendMessageAsync("Successfully added **" + source.getInfo().getTitle() + "** to queue.", null);
+                    channel.sendMessageAsync("Successfully added **" + source.getInfo().getTitle() + "** to queue.", null);
                     if (musicPlayer.isStopped())
                         musicPlayer.play();
                 } catch(Exception e) {
-                    event.getChannel().sendMessageAsync(FormatUtils.error("Could not add song to queue."), null);
+                    channel.sendMessageAsync(FormatUtils.error("Could not add song to queue."), null);
                     PlusBot.LOG.log(e);
                 }
             }
         } catch (NullPointerException | JSONException ex) {
-            event.getChannel().sendMessageAsync(FormatUtils.error("Invalid URL: " + args[0]), null);
+            channel.sendMessageAsync(FormatUtils.error("Invalid URL: " + args[0]), null);
         }
     }
 

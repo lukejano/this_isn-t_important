@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.config;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
@@ -35,40 +36,40 @@ public class CommandToggle extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         boolean isEnable = args[1].equalsIgnoreCase("enable");
         boolean isServer = args[0].equalsIgnoreCase("server");
 
         if (!isEnable) {
             if (isServer) {
-                if (plusBot.getConfiguration().getDisabledCommands(event.getGuild()).contains(args[2].toLowerCase())) {
-                    event.getChannel().sendMessageAsync("That command is already disabled!", null);
+                if (plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(args[2].toLowerCase())) {
+                    channel.sendMessageAsync("That command is already disabled!", null);
                     return;
                 }
-                plusBot.getConfiguration().addDisabledCommand(args[2].toLowerCase(), event.getGuild());
+                plusBot.getConfiguration().addDisabledCommand(args[2].toLowerCase(), channel.getGuild());
             } else {
-                if (plusBot.getConfiguration().getDisabledCommands(event.getTextChannel()).contains(args[2].toLowerCase())) {
-                    event.getChannel().sendMessageAsync("That command is already disabled!", null);
+                if (plusBot.getConfiguration().getDisabledCommands(channel).contains(args[2].toLowerCase())) {
+                    channel.sendMessageAsync("That command is already disabled!", null);
                     return;
                 }
-                plusBot.getConfiguration().addDisabledCommand(args[2].toLowerCase(), event.getTextChannel());
+                plusBot.getConfiguration().addDisabledCommand(args[2].toLowerCase(), channel);
             }
-            event.getChannel().sendMessageAsync("Disabled command **" + args[2] + "**", null);
+            channel.sendMessageAsync("Disabled command **" + args[2] + "**", null);
         } else {
             if (isServer) {
-                if (!plusBot.getConfiguration().getDisabledCommands(event.getGuild()).contains(args[2].toLowerCase())) {
-                    event.getChannel().sendMessageAsync("That command is already enabled!", null);
+                if (!plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(args[2].toLowerCase())) {
+                    channel.sendMessageAsync("That command is already enabled!", null);
                     return;
                 }
-                plusBot.getConfiguration().removeDisabledCommand(args[2].toLowerCase(), event.getGuild());
+                plusBot.getConfiguration().removeDisabledCommand(args[2].toLowerCase(), channel.getGuild());
             } else {
-                if (!plusBot.getConfiguration().getDisabledCommands(event.getTextChannel()).contains(args[2].toLowerCase())) {
-                    event.getChannel().sendMessageAsync("That command is already enabled!", null);
+                if (!plusBot.getConfiguration().getDisabledCommands(channel).contains(args[2].toLowerCase())) {
+                    channel.sendMessageAsync("That command is already enabled!", null);
                     return;
                 }
-                plusBot.getConfiguration().removeDisabledCommand(args[2].toLowerCase(), event.getTextChannel());
+                plusBot.getConfiguration().removeDisabledCommand(args[2].toLowerCase(), channel);
             }
-            event.getChannel().sendMessageAsync("Enabled command **" + args[2] + "**", null);
+            channel.sendMessageAsync("Enabled command **" + args[2] + "**", null);
         }
     }
 

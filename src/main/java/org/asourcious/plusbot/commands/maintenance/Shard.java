@@ -2,7 +2,8 @@ package org.asourcious.plusbot.commands.maintenance;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -15,7 +16,7 @@ public class Shard extends Command {
             "Returns information about the current shard",
             "shard",
             null,
-            PermissionLevel.EVERYONE
+            PermissionLevel.SERVER_MODERATOR
     );
 
     @Override
@@ -26,10 +27,10 @@ public class Shard extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         MessageBuilder messageBuilder = new MessageBuilder();
 
-        JDA shard = event.getJDA();
+        JDA shard = message.getJDA();
 
         messageBuilder.appendString("```xl\n I am Shard " + plusBot.getShardManager().getShards().indexOf(shard) + ":"
                 + " Guilds: " + shard.getGuilds().size()
@@ -40,7 +41,7 @@ public class Shard extends Command {
                 + "\n```"
         );
 
-        event.getChannel().sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(messageBuilder.build(), null);
     }
 
     @Override

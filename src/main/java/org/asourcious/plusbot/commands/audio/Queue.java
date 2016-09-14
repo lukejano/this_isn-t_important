@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.player.source.AudioSource;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
@@ -31,11 +32,11 @@ public class Queue extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        LinkedList<AudioSource> queue = plusBot.getMusicPlayer(event.getGuild()).getAudioQueue();
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        LinkedList<AudioSource> queue = plusBot.getMusicPlayer(channel.getGuild()).getAudioQueue();
 
         if (args.length == 1) {
-            event.getChannel().sendMessageAsync("There are **" + queue.size() + "** songs enqueued.", null);
+            channel.sendMessageAsync("There are **" + queue.size() + "** songs enqueued.", null);
             return;
         }
 
@@ -52,7 +53,7 @@ public class Queue extends Command {
             queueString.append(i + 1).append(") ").append(source.getInfo().getTitle()).append("\n");
         }
 
-        event.getChannel().sendMessageAsync(queueString.toString(), null);
+        channel.sendMessageAsync(queueString.toString(), null);
     }
 
     @Override

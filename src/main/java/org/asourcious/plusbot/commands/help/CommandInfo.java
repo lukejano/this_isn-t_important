@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.help;
 
 import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -29,7 +30,7 @@ public class CommandInfo extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         CommandRegistry.CommandEntry commandEntry = CommandRegistry.getCommand(args[0]);
         CommandDescription description = commandEntry.getCommand().getDescription();
 
@@ -52,7 +53,7 @@ public class CommandInfo extends Command {
                 .appendString(description.getRequiredPermissions().toString())
                 .appendString("```");
 
-        event.getChannel().sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(messageBuilder.build(), null);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.asourcious.plusbot.commands.config;
 
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
@@ -32,32 +33,32 @@ public class Prefix extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         if (args[0].equalsIgnoreCase("add")) {
-            if (plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).contains(args[1])) {
-                event.getChannel().sendMessageAsync("That prefix is already added!", null);
+            if (plusBot.getConfiguration().getPrefixesForGuild(channel.getGuild()).contains(args[1])) {
+                channel.sendMessageAsync("That prefix is already added!", null);
                 return;
             }
 
-            if (plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).size() >= 15) {
-                event.getChannel().sendMessageAsync("This server already has the maximum number of prefixes, delete some to add more.", null);
+            if (plusBot.getConfiguration().getPrefixesForGuild(channel.getGuild()).size() >= 15) {
+                channel.sendMessageAsync("This server already has the maximum number of prefixes, delete some to add more.", null);
                 return;
             }
 
-            plusBot.getConfiguration().addPrefixToGuild(args[1], event.getGuild());
-            event.getChannel().sendMessageAsync("Added prefix **" + args[1] + "**", null);
+            plusBot.getConfiguration().addPrefixToGuild(args[1], channel.getGuild());
+            channel.sendMessageAsync("Added prefix **" + args[1] + "**", null);
         } else if (args[0].equalsIgnoreCase("remove")) {
-            if (!plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).contains(args[1])) {
-                event.getChannel().sendMessageAsync("That prefix doesn't exist!", null);
+            if (!plusBot.getConfiguration().getPrefixesForGuild(channel.getGuild()).contains(args[1])) {
+                channel.sendMessageAsync("That prefix doesn't exist!", null);
                 return;
             }
-            plusBot.getConfiguration().removePrefixFromGuild(args[1], event.getGuild());
-            event.getChannel().sendMessageAsync("Removed prefix **" + args[1] + "**", null);
+            plusBot.getConfiguration().removePrefixFromGuild(args[1], channel.getGuild());
+            channel.sendMessageAsync("Removed prefix **" + args[1] + "**", null);
         } else {
-            plusBot.getConfiguration().getPrefixesForGuild(event.getGuild()).forEach(prefix ->
-                    plusBot.getConfiguration().removePrefixFromGuild(prefix, event.getGuild())
+            plusBot.getConfiguration().getPrefixesForGuild(channel.getGuild()).forEach(prefix ->
+                    plusBot.getConfiguration().removePrefixFromGuild(prefix, channel.getGuild())
             );
-            event.getChannel().sendMessageAsync("Cleared prefixes", null);
+            channel.sendMessageAsync("Cleared prefixes", null);
         }
     }
 

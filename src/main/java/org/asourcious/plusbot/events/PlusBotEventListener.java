@@ -30,7 +30,7 @@ public class PlusBotEventListener extends ListenerAdapter {
         if (event.isPrivate())
             return;
 
-        commandManager.parseMessage(event);
+        commandManager.parseMessage(event.getTextChannel(), event.getMessage());
     }
 
     @Override

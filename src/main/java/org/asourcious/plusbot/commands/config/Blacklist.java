@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.config;
 
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.entities.User;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
@@ -32,35 +33,35 @@ public class Blacklist extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         int numUpdated = 0;
-        List<User> toAdd = event.getMessage().getMentionedUsers();
+        List<User> toAdd = message.getMentionedUsers();
 
-        if (CommandUtils.getPrefixForMessage(plusBot, event.getMessage()).equals(event.getJDA().getSelfInfo().getAsMention()))
-            toAdd.remove(event.getJDA().getSelfInfo());
+        if (CommandUtils.getPrefixForMessage(plusBot, message).equals(message.getJDA().getSelfInfo().getAsMention()))
+            toAdd.remove(message.getJDA().getSelfInfo());
 
-        toAdd.remove(event.getJDA().getSelfInfo());
+        toAdd.remove(message.getJDA().getSelfInfo());
         if (args[0].equalsIgnoreCase("add")) {
-            for (User user : event.getMessage().getMentionedUsers()) {
-                if (!plusBot.getConfiguration().getBlacklist(event.getGuild()).contains(event.getAuthor().getId())) {
-                    if (PermissionLevel.getPermissionLevel(event.getAuthor(), event.getGuild()).getValue()
-                            > PermissionLevel.getPermissionLevel(user, event.getGuild()).getValue()) {
-                        plusBot.getConfiguration().addUserToBlacklist(user, event.getGuild());
+            for (User user : message.getMentionedUsers()) {
+                if (!plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(message.getAuthor().getId())) {
+                    if (PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue()
+                            > PermissionLevel.getPermissionLevel(user, channel.getGuild()).getValue()) {
+                        plusBot.getConfiguration().addUserToBlacklist(user, channel.getGuild());
                         numUpdated++;
                     } else {
-                        event.getChannel().sendMessageAsync("You don't have the necessary permissions to add **" + user.getUsername() + "** to the blacklist", null);
+                        channel.sendMessageAsync("You don't have the necessary permissions to add **" + user.getUsername() + "** to the blacklist", null);
                     }
                 }
             }
-            event.getChannel().sendMessageAsync("Successfully added **" + numUpdated + "** users to the blacklist.", null);
+            channel.sendMessageAsync("Successfully added **" + numUpdated + "** users to the blacklist.", null);
         } else {
-            for (User user : event.getMessage().getMentionedUsers()) {
-                if (plusBot.getConfiguration().getBlacklist(event.getGuild()).contains(event.getAuthor().getId())) {
-                    plusBot.getConfiguration().removeUserFromBlacklist(user, event.getGuild());
+            for (User user : message.getMentionedUsers()) {
+                if (plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(message.getAuthor().getId())) {
+                    plusBot.getConfiguration().removeUserFromBlacklist(user, channel.getGuild());
                     numUpdated++;
                 }
             }
-            event.getChannel().sendMessageAsync("Successfully removed **" + numUpdated + "** users from the blacklist.", null);
+            channel.sendMessageAsync("Successfully removed **" + numUpdated + "** users from the blacklist.", null);
         }
     }
 

@@ -1,7 +1,8 @@
 package org.asourcious.plusbot.commands.help;
 
 import net.dv8tion.jda.MessageBuilder;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -28,18 +29,18 @@ public class Help extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         List<CommandRegistry.CommandEntry> commandEntries = CommandRegistry.getRegisteredCommands();
 
         MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.appendString("The current commands available to you in **" + event.getGuild().getName() + "** are:\n```xl\n");
+        messageBuilder.appendString("The current commands available to you in **" + channel.getGuild().getName() + "** are:\n```xl\n");
 
         for (int i = 0; i < commandEntries.size(); i++) {
             CommandRegistry.CommandEntry entry = commandEntries.get(i);
-            if (plusBot.getConfiguration().getDisabledCommands(event.getGuild()).contains(entry.getName().toLowerCase()))
+            if (plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(entry.getName().toLowerCase()))
                 continue;
             if (entry.getCommand().getDescription().getRequiredPermissions().getValue() >
-                    PermissionLevel.getPermissionLevel(event.getAuthor(), event.getGuild()).getValue())
+                    PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue())
                 continue;
 
             messageBuilder.appendString((i + 1) + ") " + entry.getName() + "\n");
@@ -47,8 +48,8 @@ public class Help extends Command {
         messageBuilder.appendString("```\n");
         messageBuilder.appendString("If you need any further help, join https://www.discord.gg/dFwYEb7 and ask for assistance");
 
-        event.getAuthor().getPrivateChannel().sendMessageAsync(messageBuilder.build(), null);
-        event.getChannel().sendMessageAsync(event.getAuthor().getAsMention() + ", help has been sent to your DM's.", null);
+        message.getAuthor().getPrivateChannel().sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(message.getAuthor().getAsMention() + ", help has been sent to your DM's.", null);
     }
 
     @Override

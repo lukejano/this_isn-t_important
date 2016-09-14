@@ -1,5 +1,7 @@
 package org.asourcious.plusbot.commands.audio;
 
+import net.dv8tion.jda.entities.Message;
+import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.events.message.MessageReceivedEvent;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
@@ -25,10 +27,10 @@ public class Clear extends Command {
     }
 
     @Override
-    public void execute(PlusBot plusBot, String[] args, MessageReceivedEvent event) {
-        plusBot.getMusicPlayer(event.getGuild()).getAudioQueue().clear();
-        plusBot.getMusicPlayer(event.getGuild()).skipToNext();
-        event.getChannel().sendMessageAsync("Cleared the audio queue.", null);
+    public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
+        plusBot.getMusicPlayer(channel.getGuild()).getAudioQueue().clear();
+        plusBot.getMusicPlayer(channel.getGuild()).skipToNext();
+        channel.sendMessageAsync("Cleared the audio queue.", null);
     }
 
     @Override
