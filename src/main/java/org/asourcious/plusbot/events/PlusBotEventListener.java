@@ -2,7 +2,7 @@ package org.asourcious.plusbot.events;
 
 import net.dv8tion.jda.events.ReadyEvent;
 import net.dv8tion.jda.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.hooks.ListenerAdapter;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.managers.AutoRoleManager;
@@ -24,13 +24,11 @@ public class PlusBotEventListener extends ListenerAdapter {
     }
 
     @Override
-    public void onMessageReceived(MessageReceivedEvent event) {
+    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         if (event.getAuthor().isBot())
             return;
-        if (event.isPrivate())
-            return;
 
-        commandManager.parseMessage(event.getTextChannel(), event.getMessage());
+        commandManager.parseMessage(event.getChannel(), event.getMessage());
     }
 
     @Override
