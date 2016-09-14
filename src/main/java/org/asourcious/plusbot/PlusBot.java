@@ -15,6 +15,7 @@ import org.asourcious.plusbot.commands.audio.Play;
 import org.asourcious.plusbot.commands.audio.PlaylistCommand;
 import org.asourcious.plusbot.commands.audio.Queue;
 import org.asourcious.plusbot.commands.audio.Resume;
+import org.asourcious.plusbot.commands.audio.Shuffle;
 import org.asourcious.plusbot.commands.audio.Skip;
 import org.asourcious.plusbot.commands.audio.Volume;
 import org.asourcious.plusbot.commands.config.AutoRole;
@@ -96,6 +97,7 @@ public class PlusBot {
         CommandRegistry.registerCommand("Playlist", new PlaylistCommand());
         CommandRegistry.registerCommand("Queue", new Queue());
         CommandRegistry.registerCommand("Resume", new Resume());
+        CommandRegistry.registerCommand("Shuffle", new Shuffle());
         CommandRegistry.registerCommand("Skip", new Skip());
         CommandRegistry.registerCommand("Volume", new Volume());
         CommandRegistry.registerAlias("Join", "Summon");
