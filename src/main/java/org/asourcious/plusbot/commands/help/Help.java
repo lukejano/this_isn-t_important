@@ -39,6 +39,8 @@ public class Help extends Command {
             CommandRegistry.CommandEntry entry = commandEntries.get(i);
             if (plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(entry.getName().toLowerCase()))
                 continue;
+            if (entry.isAlias())
+                continue;
             if (entry.getCommand().getDescription().getRequiredPermissions().getValue() >
                     PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue())
                 continue;

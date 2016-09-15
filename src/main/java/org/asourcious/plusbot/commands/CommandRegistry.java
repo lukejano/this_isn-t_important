@@ -11,11 +11,11 @@ public final class CommandRegistry {
     private static HashMap<String, CommandEntry> registry = new HashMap<>();
 
     public static void registerCommand(String name, Command command) {
-        registry.put(name.toLowerCase(), new CommandEntry(command, name));
+        registry.put(name.toLowerCase(), new CommandEntry(command, false));
     }
 
     public static void registerAlias(String command, String alias) {
-        registry.put(alias.toLowerCase(), new CommandEntry(registry.get(command.toLowerCase()).getCommand(), alias));
+        registry.put(alias.toLowerCase(), new CommandEntry(registry.get(command.toLowerCase()).getCommand(), true));
     }
 
     public static boolean hasCommand(String name) {
@@ -32,20 +32,24 @@ public final class CommandRegistry {
 
     public static class CommandEntry {
 
-        private String name;
         private Command command;
+        private boolean isAlias;
 
-        private CommandEntry(Command command, String name) {
-            this.name = name;
+        private CommandEntry(Command command, boolean isAlias) {
+            this.isAlias = isAlias;
             this.command = command;
         }
 
         public String getName() {
-            return name;
+            return command.getDescription().getName();
         }
 
         public String getArgs() {
             return command.getDescription().getArguments() == null ? "None" : Arrays.toString(command.getDescription().getArguments());
+        }
+
+        public boolean isAlias() {
+            return isAlias;
         }
 
         public Command getCommand() {
