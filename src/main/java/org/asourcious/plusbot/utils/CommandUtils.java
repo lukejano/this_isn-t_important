@@ -29,6 +29,9 @@ public final class CommandUtils {
                 .substring(prefix.length())
                 .replaceAll("(<(@(!|&)?|#)\\d+>)|(@everyone)|(@here)", "")
                 .trim();
+        if (StringUtils.isBlank(formattedMessage))
+            return new CommandManager.CommandContainer("", new String[0]);
+
         ArrayList<String> args = new ArrayList<>();
         boolean isInQuote = false;
         StringBuilder currentArg = new StringBuilder();
