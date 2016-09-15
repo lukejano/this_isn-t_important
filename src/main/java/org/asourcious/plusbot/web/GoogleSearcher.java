@@ -57,6 +57,9 @@ public class GoogleSearcher {
         }
 
         cache.put(query.toLowerCase(), new Pair<>(results.get(0) ,OffsetDateTime.now()));
+
+        if (results.isEmpty())
+            return "No results found!";
         return results.get(0);
     }
 
