@@ -10,6 +10,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.CommandUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Blacklist extends Command {
@@ -35,15 +36,14 @@ public class Blacklist extends Command {
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         int numUpdated = 0;
-        List<User> toAdd = message.getMentionedUsers();
+        List<User> toUpdate = new ArrayList<>(message.getMentionedUsers());
 
         if (CommandUtils.getPrefixForMessage(plusBot, message).equals(message.getJDA().getSelfInfo().getAsMention()))
-            toAdd.remove(message.getJDA().getSelfInfo());
+            toUpdate.remove(message.getJDA().getSelfInfo());
 
-        toAdd.remove(message.getJDA().getSelfInfo());
         if (args[0].equalsIgnoreCase("add")) {
-            for (User user : message.getMentionedUsers()) {
-                if (!plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(message.getAuthor().getId())) {
+            for (User user : toUpdate) {
+                if (!plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(user.getId())) {
                     if (PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue()
                             > PermissionLevel.getPermissionLevel(user, channel.getGuild()).getValue()) {
                         plusBot.getConfiguration().addUserToBlacklist(user, channel.getGuild());
@@ -55,8 +55,8 @@ public class Blacklist extends Command {
             }
             channel.sendMessageAsync("Successfully added **" + numUpdated + "** users to the blacklist.", null);
         } else {
-            for (User user : message.getMentionedUsers()) {
-                if (plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(message.getAuthor().getId())) {
+            for (User user : toUpdate) {
+                if (plusBot.getConfiguration().getBlacklist(channel.getGuild()).contains(user.getId())) {
                     plusBot.getConfiguration().removeUserFromBlacklist(user, channel.getGuild());
                     numUpdated++;
                 }
