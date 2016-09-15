@@ -1,14 +1,16 @@
 package org.asourcious.plusbot.commands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class CommandRegistry {
     private CommandRegistry() {}
 
-    private static HashMap<String, CommandEntry> registry = new HashMap<>();
+    private static Map<String, CommandEntry> registry = new ConcurrentHashMap<>();
 
     public static void registerCommand(String name, Command command) {
         registry.put(name.toLowerCase(), new CommandEntry(command, false));
@@ -27,7 +29,7 @@ public final class CommandRegistry {
     }
 
     public static List<CommandEntry> getRegisteredCommands() {
-        return registry.keySet().parallelStream().map(key -> registry.get(key)).collect(Collectors.toList());
+        return Collections.unmodifiableList(new ArrayList<>(registry.values()));
     }
 
     public static class CommandEntry {
