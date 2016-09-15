@@ -52,6 +52,8 @@ public class Queue extends Command {
 
             queueString.append(i + 1).append(") ").append(source.getInfo().getTitle()).append("\n");
         }
+        if (queueString.length() == 0)
+            queueString.append("The queue is empty!");
 
         channel.sendMessageAsync(queueString.toString(), null);
     }
