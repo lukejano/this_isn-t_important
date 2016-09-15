@@ -66,6 +66,7 @@ public class PlusBot {
     private ScheduledExecutorService cacheCleaner;
 
     public void init() throws LoginException {
+        Statistics.startTime = System.currentTimeMillis();
         configuration = new Configuration();
         shardManager = new ShardManager(this, 1);
         guildMusicPlayers = new ConcurrentHashMap<>();
