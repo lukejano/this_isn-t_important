@@ -9,8 +9,8 @@ repositories {
 }
 
 dependencies {
-    compile "net.dv8tion:JDA:2.2.1_362"
-    compile "net.dv8tion:jda-player:0.2.2_20"
+    compile "net.dv8tion:JDA:2.2.1_364"
+    compile "net.dv8tion:jda-player:0.2.2_21"
     compile "commons-io:commons-io:2.5"
     compile "mysql:mysql-connector-java:6.0.3"
     compile "org.jsoup:jsoup:1.9.2"
