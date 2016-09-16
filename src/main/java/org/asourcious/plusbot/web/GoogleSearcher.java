@@ -56,10 +56,10 @@ public class GoogleSearcher {
             return null;
         }
 
-        cache.put(query.toLowerCase(), new Pair<>(results.get(0), OffsetDateTime.now()));
-
         if (results.isEmpty())
-            return "No results found!";
+            results.add("No results found!");
+
+        cache.put(query.toLowerCase(), new Pair<>(results.get(0), OffsetDateTime.now()));
         return results.get(0);
     }
 
