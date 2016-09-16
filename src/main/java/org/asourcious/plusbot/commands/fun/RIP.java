@@ -46,14 +46,16 @@ public class RIP extends Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        if (args.length == 0 && !message.getMentionedUsers().stream().anyMatch(user -> !user.equals(message.getJDA().getSelfInfo()))) {
+        List<User> mentionedUsers = new ArrayList<>(message.getMentionedUsers());
+        String selfMention = message.getJDA().getSelfInfo().getAsMention();
+        if (CommandUtils.getPrefixForMessage(plusBot, message).equals(selfMention)
+                && !message.getRawContent().replaceFirst(selfMention, "").contains(selfMention))
+            mentionedUsers.remove(message.getJDA().getSelfInfo());
+
+        if (args.length == 0 && mentionedUsers.isEmpty()) {
             channel.sendMessageAsync(FormatUtils.error("If no arguments are supplied, you must mention a user!"), null);
             return;
         }
-
-        List<User> mentionedUsers = new ArrayList<>(message.getMentionedUsers());
-        if (CommandUtils.getPrefixForMessage(plusBot, message).equals(message.getJDA().getSelfInfo().getAsMention()))
-            mentionedUsers.remove(message.getJDA().getSelfInfo());
 
         if (mentionedUsers.size() > 1) {
             channel.sendMessageAsync("You can only mention one user!", null);
