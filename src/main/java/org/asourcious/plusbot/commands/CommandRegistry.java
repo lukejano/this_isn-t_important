@@ -57,7 +57,7 @@ public final class CommandRegistry {
         }
 
         public List<String> getAliases() {
-            return aliases;
+            return Collections.unmodifiableList(new ArrayList<>(aliases));
         }
 
         public Command getCommand() {
