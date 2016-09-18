@@ -11,21 +11,23 @@ public final class CommandRegistry {
     private CommandRegistry() {}
 
     private static Map<String, CommandEntry> registry = new ConcurrentHashMap<>();
+    private static Map<String, String> aliasMap = new ConcurrentHashMap<>();
 
     public static void registerCommand(String name, Command command) {
-        registry.put(name.toLowerCase(), new CommandEntry(command, false));
+        registry.put(name.toLowerCase(), new CommandEntry(command));
     }
 
     public static void registerAlias(String command, String alias) {
-        registry.put(alias.toLowerCase(), new CommandEntry(registry.get(command.toLowerCase()).getCommand(), true));
+        aliasMap.put(alias.toLowerCase(), command.toLowerCase());
+        registry.get(command.toLowerCase()).addAlias(alias);
     }
 
     public static boolean hasCommand(String name) {
-        return registry.containsKey(name.toLowerCase());
+        return registry.containsKey(name.toLowerCase()) || aliasMap.containsKey(name.toLowerCase());
     }
 
     public static CommandEntry getCommand(String name) {
-        return registry.get(name.toLowerCase());
+        return registry.containsKey(name) ? registry.get(name.toLowerCase()) : registry.get(aliasMap.get(name.toLowerCase()));
     }
 
     public static List<CommandEntry> getRegisteredCommands() {
@@ -35,10 +37,10 @@ public final class CommandRegistry {
     public static class CommandEntry {
 
         private Command command;
-        private boolean isAlias;
+        private List<String> aliases;
 
-        private CommandEntry(Command command, boolean isAlias) {
-            this.isAlias = isAlias;
+        private CommandEntry(Command command) {
+            aliases = new ArrayList<>();
             this.command = command;
         }
 
@@ -50,8 +52,12 @@ public final class CommandRegistry {
             return command.getDescription().getArguments() == null ? "None" : Arrays.toString(command.getDescription().getArguments());
         }
 
-        public boolean isAlias() {
-            return isAlias;
+        private void addAlias(String alias) {
+            aliases.add(alias);
+        }
+
+        public List<String> getAliases() {
+            return aliases;
         }
 
         public Command getCommand() {

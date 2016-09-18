@@ -38,7 +38,7 @@ public class CommandInfo extends Command {
 
         messageBuilder
                 .appendString("```\nCommandInfo for command ")
-                .appendString(description.getName())
+                .appendString(commandEntry.getName())
                 .appendString("\n\n")
                 .appendString("Description:\n")
                 .appendString(description.getDescription())
@@ -48,6 +48,9 @@ public class CommandInfo extends Command {
                 .appendString("\n\n")
                 .appendString("Example:\n")
                 .appendString(description.getExample())
+                .appendString("\n\n")
+                .appendString("Aliases:\n")
+                .appendString(commandEntry.getAliases().toString())
                 .appendString("\n\n")
                 .appendString("Required Permissions:\n")
                 .appendString(description.getRequiredPermissions().toString())
