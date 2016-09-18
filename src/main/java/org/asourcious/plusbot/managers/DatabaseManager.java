@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DatabaseManager {
@@ -28,7 +29,7 @@ public class DatabaseManager {
         }
     }
 
-    public ConcurrentHashMap<String, List<String>> loadDataFromTable(String tableName) {
+    public Map<String, List<String>> loadDataFromTable(String tableName) {
         ConcurrentHashMap<String, List<String>> cache = new ConcurrentHashMap<>();
 
         try (Statement statement = connection.createStatement()) {
