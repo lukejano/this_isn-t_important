@@ -5,7 +5,6 @@ import net.dv8tion.jda.entities.TextChannel;
 import org.apache.commons.lang3.StringUtils;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.CommandRegistry;
-import org.asourcious.plusbot.managers.CommandManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +23,13 @@ public final class CommandUtils {
                 .orElse(null);
     }
 
-    public static CommandManager.CommandContainer getArgsForMessage(String message, String prefix) {
+    public static List<String> getArgsForMessage(String message, String prefix) {
         String formattedMessage = message
                 .substring(prefix.length())
                 .replaceAll("(<(@(!|&)?|#)\\d+>)|(@everyone)|(@here)", "")
                 .trim();
         if (StringUtils.isBlank(formattedMessage))
-            return new CommandManager.CommandContainer("", new String[0]);
+            return new ArrayList<>();
 
         ArrayList<String> args = new ArrayList<>();
         boolean isInQuote = false;
@@ -51,10 +50,8 @@ public final class CommandUtils {
 
         args.add(currentArg.toString());
         args.removeIf(StringUtils::isBlank);
-        String name = args.get(0);
-        args.remove(0);
 
-        return new CommandManager.CommandContainer(name, args.toArray(new String[args.size()]));
+        return args;
     }
 
     public static boolean isValidCommand(Message message, PlusBot plusBot) {
@@ -62,9 +59,14 @@ public final class CommandUtils {
         if (prefix == null)
             return false;
 
-        CommandManager.CommandContainer commandContainer = getArgsForMessage(message.getRawContent(), prefix);
+        List<String> args = getArgsForMessage(message.getRawContent(), prefix);
+        if (args.isEmpty())
+            return false;
 
-        return CommandRegistry.hasCommand(commandContainer.name)
-                && CommandRegistry.getCommand(commandContainer.name).getCommand().checkArgs(commandContainer.args) == null;
+        String name = args.get(0);
+        args.remove(0);
+
+        return CommandRegistry.hasCommand(name)
+                && CommandRegistry.getCommand(name).getCommand().checkArgs(args.toArray(new String[args.size()])) == null;
     }
 }
