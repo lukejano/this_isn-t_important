@@ -2,6 +2,7 @@ package org.asourcious.plusbot.commands.audio;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
+import net.dv8tion.jda.player.MusicPlayer;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
@@ -28,9 +29,16 @@ public class Skip extends Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        String songName = FormatUtils.getFormattedSongName(plusBot.getMusicPlayer(channel.getGuild()));
+        MusicPlayer musicPlayer = plusBot.getMusicPlayer(channel.getGuild());
+
+        if (musicPlayer.getCurrentAudioSource() == null) {
+            channel.sendMessageAsync("There is nothing in the queue!", null);
+            return;
+        }
+
+        String songName = FormatUtils.getFormattedSongName(musicPlayer);
         channel.sendMessageAsync("Skipping " + songName, null);
-        plusBot.getMusicPlayer(channel.getGuild()).skipToNext();
+        musicPlayer.skipToNext();
     }
 
     @Override
