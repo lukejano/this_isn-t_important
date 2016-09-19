@@ -142,7 +142,7 @@ public class PlusBot {
     }
 
     public MusicPlayer getMusicPlayer(Guild guild) {
-        if (!guildMusicPlayers.containsKey(guild.getId())){
+        if (!guildMusicPlayers.containsKey(guild.getId())) {
             guildMusicPlayers.put(guild.getId(), new MusicPlayer());
             guildMusicPlayers.get(guild.getId()).addEventListener(new MusicPlayerEventListener(guild.getPublicChannel()));
         }
