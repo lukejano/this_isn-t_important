@@ -13,6 +13,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
 import java.lang.management.ManagementFactory;
+import java.time.OffsetDateTime;
 
 public class Status extends Command {
 
@@ -36,14 +37,14 @@ public class Status extends Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        long elapsedMillis = System.currentTimeMillis() - Statistics.startTime;
+
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendString(PlusBot.NAME + " Status:\n")
                 .appendString("```xl\n")
                 .appendString("Name: " + PlusBot.NAME + "\n")
                 .appendString("Version " + PlusBot.VERSION + "\n")
-                .appendString("Uptime: " + FormatUtils.getFormattedTime(elapsedMillis) + "\n")
+                .appendString("Uptime: " + FormatUtils.getFormattedTime(Statistics.startTime, OffsetDateTime.now()) + "\n")
                 .appendString("Threads: " + Thread.activeCount() + "\n")
                 .appendString("CPU Usage: " + Precision.round(systemMXBean.getProcessCpuLoad() * 100, 2) + "%\n")
                 .appendString("RAM Usage: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1048576 + "MB\n")

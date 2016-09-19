@@ -41,6 +41,7 @@ import org.asourcious.plusbot.web.GoogleSearcher;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
@@ -66,7 +67,7 @@ public class PlusBot {
     private ScheduledExecutorService cacheCleaner;
 
     public void init() throws LoginException {
-        Statistics.startTime = System.currentTimeMillis();
+        Statistics.startTime = OffsetDateTime.now();
         configuration = new Configuration();
         shardManager = new ShardManager(this, 1);
         guildMusicPlayers = new ConcurrentHashMap<>();

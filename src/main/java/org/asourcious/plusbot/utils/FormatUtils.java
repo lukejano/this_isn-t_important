@@ -2,7 +2,9 @@ package org.asourcious.plusbot.utils;
 
 import net.dv8tion.jda.player.MusicPlayer;
 
-import java.util.concurrent.TimeUnit;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoUnit;
+
 
 public final class FormatUtils {
     private FormatUtils() {}
@@ -18,24 +20,23 @@ public final class FormatUtils {
         return "**" +  player.getCurrentAudioSource().getInfo().getTitle() + "**";
     }
 
-    public static String getFormattedTime(long elapsedMillis) {
-        String time = "";
+    public static String getFormattedTime(OffsetDateTime startTime, OffsetDateTime endTime) {
+        ChronoUnit[] units = new ChronoUnit[] { ChronoUnit.MONTHS, ChronoUnit.DAYS, ChronoUnit.HOURS, ChronoUnit.MINUTES, ChronoUnit.SECONDS };
 
-        long days = TimeUnit.MILLISECONDS.toDays(elapsedMillis);
-        elapsedMillis -= TimeUnit.DAYS.toMillis(days);
-        long hours = TimeUnit.MILLISECONDS.toHours(elapsedMillis);
-        elapsedMillis -= TimeUnit.HOURS.toMillis(hours);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(elapsedMillis);
-        elapsedMillis -= TimeUnit.MINUTES.toMillis(minutes);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsedMillis);
+        StringBuilder formattedTime = new StringBuilder();
+        OffsetDateTime currentTime = startTime;
+        for (int i = 0; i < units.length; i++) {
+            ChronoUnit unit = units[i];
+            if (currentTime.until(endTime, unit) > 0) {
+                formattedTime
+                        .append(currentTime.until(endTime, unit))
+                        .append(" ")
+                        .append(unit.toString().toLowerCase())
+                        .append(i == units.length - 1 ? "." : ", ");
+                currentTime = currentTime.plus(startTime.until(endTime, unit), unit);
+            }
+        }
 
-        if (days > 0)
-            time += days + " days, ";
-        if (hours > 0)
-            time += hours + " hours, ";
-        if (minutes > 0)
-            time += minutes + " minutes, ";
-        time += seconds + " seconds.";
-        return time;
+        return formattedTime.toString();
     }
 }
