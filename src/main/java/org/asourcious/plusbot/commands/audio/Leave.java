@@ -8,6 +8,7 @@ import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
+import org.asourcious.plusbot.utils.FormatUtils;
 
 public class Leave extends Command {
 
@@ -30,6 +31,11 @@ public class Leave extends Command {
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         AudioManager audioManager = message.getJDA().getAudioManager(channel.getGuild());
+
+        if (!audioManager.isConnected()) {
+            channel.sendMessageAsync(FormatUtils.error("Not connected to a voice channel!"), null);
+            return;
+        }
 
         String channelName = audioManager.getConnectedChannel().getName();
         audioManager.closeAudioConnection();
