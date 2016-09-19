@@ -8,10 +8,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,10 +21,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DatabaseManager {
     private Connection connection;
 
+    private Map<String, PreparedStatement> addMap;
+    private Map<String, PreparedStatement> removeMap;
+
     public DatabaseManager() {
         try {
             List<String> lines = Files.readAllLines(new File("credentials.txt").toPath(), Charset.defaultCharset());
             connection = DriverManager.getConnection("jdbc:mysql://localhost/discorddatabase?autoReconnect=true&useSSL=false&serverTimezone=UTC", lines.get(1), lines.get(2));
+            addMap = new HashMap<>();
+            removeMap = new HashMap<>();
         } catch (SQLException | IOException ex) {
             PlusBot.LOG.log(ex);
             System.exit(-1);
@@ -52,18 +59,30 @@ public class DatabaseManager {
     }
 
     public void addEntryToTable(String containerID, String entryID, String table) {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("INSERT INTO " + table + " (container_id, entry_id) VALUES ('" + containerID +"', '" + entryID + "');");
+        try {
+            if (!addMap.containsKey(table))
+                addMap.put(table, connection.prepareStatement("INSERT INTO " + table + "(container_id, entry_id) VALUES (?, ?);"));
+
+            executeStatement(addMap.get(table), containerID, entryID);
         } catch (SQLException ex) {
             PlusBot.LOG.log(ex);
         }
     }
 
     public void removeEntryFromTable(String containerID, String entryID, String table) {
-        try (Statement statement = connection.createStatement()) {
-            statement.execute("DELETE FROM " + table + " WHERE container_id = '" + containerID + "' AND entry_id = '" + entryID + "'");
+        try {
+            if (!removeMap.containsKey(table))
+                removeMap.put(table, connection.prepareStatement("DELETE FROM " + table + " WHERE container_id = ? AND entry_id = ?"));
+            executeStatement(removeMap.get(table), containerID, entryID);
         } catch (SQLException ex) {
             PlusBot.LOG.log(ex);
         }
+    }
+
+    private void executeStatement(PreparedStatement statement, String containerID, String entryID) throws SQLException {
+        statement.setString(1, containerID);
+        statement.setString(2, entryID);
+        statement.execute();
+        statement.clearParameters();
     }
 }
