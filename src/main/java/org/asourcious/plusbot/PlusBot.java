@@ -75,7 +75,10 @@ public class PlusBot {
 
         cacheCleaner = Executors.newSingleThreadScheduledExecutor();
 
-        cacheCleaner.scheduleAtFixedRate(() -> googleSearcher.cleanCache(), 4, 4, TimeUnit.HOURS);
+        cacheCleaner.scheduleAtFixedRate(() -> {
+            LOG.info("Cleaning cache");
+            googleSearcher.cleanCache();
+        }, 4, 4, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) throws IOException, LoginException {
