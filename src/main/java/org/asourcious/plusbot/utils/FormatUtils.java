@@ -21,21 +21,23 @@ public final class FormatUtils {
     }
 
     public static String getFormattedTime(OffsetDateTime startTime, OffsetDateTime endTime) {
-        ChronoUnit[] units = new ChronoUnit[] { ChronoUnit.MONTHS, ChronoUnit.DAYS, ChronoUnit.HOURS, ChronoUnit.MINUTES, ChronoUnit.SECONDS };
-
         StringBuilder formattedTime = new StringBuilder();
-        OffsetDateTime currentTime = startTime;
-        for (int i = 0; i < units.length; i++) {
-            ChronoUnit unit = units[i];
-            if (currentTime.until(endTime, unit) > 0) {
-                formattedTime
-                        .append(currentTime.until(endTime, unit))
-                        .append(" ")
-                        .append(unit.toString().toLowerCase())
-                        .append(i == units.length - 1 ? "." : ", ");
-                currentTime = currentTime.plus(startTime.until(endTime, unit), unit);
-            }
-        }
+
+        long months = startTime.until(endTime, ChronoUnit.MONTHS);
+        startTime = startTime.plusMonths(months);
+        long days = startTime.until(endTime, ChronoUnit.DAYS);
+        startTime = startTime.plusDays(days);
+        long hours = startTime.until(endTime, ChronoUnit.HOURS);
+        startTime = startTime.plusHours(hours);
+        long minutes = startTime.until(endTime, ChronoUnit.MINUTES);
+        startTime = startTime.plusMinutes(minutes);
+        long seconds = startTime.until(endTime, ChronoUnit.SECONDS);
+
+        if (months > 0)  formattedTime.append(months).append(" months, ");
+        if (days > 0)    formattedTime.append(days).append( " days, ");
+        if (hours > 0)   formattedTime.append(hours).append(" hours,");
+        if (minutes > 0) formattedTime.append(minutes).append(" minutes, ");
+        formattedTime.append(seconds).append(" seconds.");
 
         return formattedTime.toString();
     }
