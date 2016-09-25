@@ -14,6 +14,7 @@ import org.asourcious.plusbot.commands.audio.Pause;
 import org.asourcious.plusbot.commands.audio.Play;
 import org.asourcious.plusbot.commands.audio.PlaylistCommand;
 import org.asourcious.plusbot.commands.audio.Queue;
+import org.asourcious.plusbot.commands.audio.Reset;
 import org.asourcious.plusbot.commands.audio.Resume;
 import org.asourcious.plusbot.commands.audio.Shuffle;
 import org.asourcious.plusbot.commands.audio.Skip;
@@ -101,6 +102,7 @@ public class PlusBot {
         CommandRegistry.registerCommand("Play", new Play());
         CommandRegistry.registerCommand("Playlist", new PlaylistCommand());
         CommandRegistry.registerCommand("Queue", new Queue());
+        CommandRegistry.registerCommand("Reset", new Reset());
         CommandRegistry.registerCommand("Resume", new Resume());
         CommandRegistry.registerCommand("Shuffle", new Shuffle());
         CommandRegistry.registerCommand("Skip", new Skip());
@@ -152,6 +154,11 @@ public class PlusBot {
         }
 
         return guildMusicPlayers.get(guild.getId());
+    }
+
+    public void resetMusicPlayer(Guild guild) {
+        guildMusicPlayers.remove(guild.getId());
+        guild.getAudioManager().setSendingHandler(null);
     }
 
     private static void setupLogFile(File file) throws IOException {
