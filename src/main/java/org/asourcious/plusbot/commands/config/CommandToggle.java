@@ -3,11 +3,7 @@ package org.asourcious.plusbot.commands.config;
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
-import org.asourcious.plusbot.commands.Argument;
-import org.asourcious.plusbot.commands.Command;
-import org.asourcious.plusbot.commands.CommandDescription;
-import org.asourcious.plusbot.commands.CommandRegistry;
-import org.asourcious.plusbot.commands.PermissionLevel;
+import org.asourcious.plusbot.commands.*;
 
 public class CommandToggle extends Command {
 

@@ -13,12 +13,7 @@ import org.asourcious.plusbot.utils.FormatUtils;
 import org.asourcious.plusbot.utils.MiscUtils;
 
 import javax.imageio.ImageIO;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

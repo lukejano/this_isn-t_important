@@ -1,6 +1,5 @@
 package org.asourcious.plusbot.commands.maintenance;
 
-import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
