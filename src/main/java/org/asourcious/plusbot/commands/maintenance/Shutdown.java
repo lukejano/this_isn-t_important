@@ -30,7 +30,6 @@ public class Shutdown extends Command {
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
         channel.sendMessage("Shutting down...");
         plusBot.shutdown();
-        plusBot.getShardManager().getShards().forEach(JDA::shutdown);
     }
 
     @Override

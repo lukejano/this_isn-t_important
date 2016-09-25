@@ -13,8 +13,8 @@ public class PlusBotEventListener extends ListenerAdapter {
     private CommandManager commandManager;
     private AutoRoleManager autoRoleManager;
 
-    public PlusBotEventListener(PlusBot plusBot) {
-        commandManager = new CommandManager(plusBot);
+    public PlusBotEventListener(PlusBot plusBot, CommandManager commandManager) {
+        this.commandManager = commandManager;
         autoRoleManager = new AutoRoleManager(plusBot.getConfiguration());
     }
 

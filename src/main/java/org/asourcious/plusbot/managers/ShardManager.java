@@ -13,23 +13,29 @@ import java.util.List;
 public class ShardManager {
 
     private List<JDA> shards;
+    private List<CommandManager> commandManagers;
 
     public ShardManager(PlusBot plusBot, int numShards) throws LoginException {
         shards = new ArrayList<>();
+        commandManagers = new ArrayList<>();
 
         if (numShards == 1) { // TODO: Remove once PlusBot requires shards
+            CommandManager commandManager = new CommandManager(plusBot);
+            commandManagers.add(commandManager);
             shards.add(new JDABuilder()
                     .setBotToken(plusBot.getConfiguration().getToken())
-                    .addListener(new PlusBotEventListener(plusBot))
+                    .addListener(new PlusBotEventListener(plusBot, commandManager))
                     .setBulkDeleteSplittingEnabled(false)
                     .buildAsync());
             return;
         }
 
         for(int i = 0; i < numShards; i++) {
+            CommandManager commandManager = new CommandManager(plusBot);
+            commandManagers.add(commandManager);
             shards.add(new JDABuilder()
                     .setBotToken(plusBot.getConfiguration().getToken())
-                    .addListener(new PlusBotEventListener(plusBot))
+                    .addListener(new PlusBotEventListener(plusBot, commandManager))
                     .setBulkDeleteSplittingEnabled(false)
                     .useSharding(i, numShards)
                     .buildAsync());
@@ -54,5 +60,10 @@ public class ShardManager {
 
     public int getNumberOfUsers() {
         return shards.parallelStream().mapToInt(jda -> jda.getUsers().size()).sum();
+    }
+
+    public void shutdown() {
+        commandManagers.forEach(CommandManager::shutdown);
+        shards.forEach(JDA::shutdown);
     }
 }

@@ -11,13 +11,17 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.CommandUtils;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CommandManager {
 
     private PlusBot plusBot;
+    private ExecutorService executorService;
 
     public CommandManager(PlusBot plusBot) {
         this.plusBot = plusBot;
+        this.executorService = Executors.newFixedThreadPool(100);
     }
 
     public void parseMessage(TextChannel channel, Message message) {
@@ -66,10 +70,14 @@ public class CommandManager {
 
         try {
             Statistics.numCommands++;
-            entry.getCommand().execute(plusBot, args.toArray(new String[args.size()]), channel, message);
+            executorService.execute(() -> entry.getCommand().execute(plusBot, args.toArray(new String[args.size()]), channel, message));
         } catch (PermissionException ex) {
             if (PermissionUtil.canTalk(channel))
                 channel.sendMessageAsync("I don't have the necessary permissions for this command!", null);
         }
+    }
+
+    public void shutdown() {
+        executorService.shutdown();
     }
 }

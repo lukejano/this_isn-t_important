@@ -79,7 +79,7 @@ public class PlusBot {
         cacheCleaner.scheduleAtFixedRate(() -> {
             LOG.info("Cleaning cache");
             googleSearcher.cleanCache();
-        }, 4, 4, TimeUnit.HOURS);
+        }, 0, 4, TimeUnit.HOURS);
     }
 
     public static void main(String[] args) throws IOException, LoginException {
@@ -136,6 +136,7 @@ public class PlusBot {
 
     public void shutdown() {
         cacheCleaner.shutdown();
+        shardManager.shutdown();
         configuration.shutdown();
     }
 
