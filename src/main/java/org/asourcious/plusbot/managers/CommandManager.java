@@ -70,6 +70,7 @@ public class CommandManager {
 
         try {
             Statistics.numCommands++;
+            channel.sendTyping();
             executorService.execute(() -> entry.getCommand().execute(plusBot, args.toArray(new String[args.size()]), channel, message));
         } catch (PermissionException ex) {
             if (PermissionUtil.canTalk(channel))
