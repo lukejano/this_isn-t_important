@@ -10,7 +10,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import java.io.File;
 import java.util.Random;
 
-public class Triggered extends Command {
+public class Triggered implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Triggered",

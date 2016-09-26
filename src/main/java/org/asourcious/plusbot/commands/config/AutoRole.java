@@ -10,7 +10,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 
 import java.util.List;
 
-public class AutoRole extends Command {
+public class AutoRole implements Command {
 
     private CommandDescription description = new CommandDescription(
             "AutoRole",

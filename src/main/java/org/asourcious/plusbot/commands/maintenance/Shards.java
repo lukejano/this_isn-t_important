@@ -12,7 +12,7 @@ import org.asourcious.plusbot.managers.ShardManager;
 
 import java.util.List;
 
-public class Shards extends Command {
+public class Shards implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Shards",

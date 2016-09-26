@@ -21,7 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RIP extends Command {
+public class RIP implements Command {
 
     private CommandDescription description = new CommandDescription(
             "RIP",

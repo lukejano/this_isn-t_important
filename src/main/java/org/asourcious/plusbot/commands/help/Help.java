@@ -11,7 +11,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 
 import java.util.List;
 
-public class Help extends Command {
+public class Help implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Help",

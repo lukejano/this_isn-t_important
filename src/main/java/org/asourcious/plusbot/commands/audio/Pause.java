@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
-public class Pause extends Command {
+public class Pause implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Pause",

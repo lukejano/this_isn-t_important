@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 
 import java.time.temporal.ChronoUnit;
 
-public class Ping extends Command {
+public class Ping implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Ping",

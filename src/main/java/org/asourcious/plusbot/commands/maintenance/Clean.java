@@ -11,7 +11,7 @@ import org.asourcious.plusbot.utils.CommandUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Clean extends Command {
+public class Clean implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Clean",

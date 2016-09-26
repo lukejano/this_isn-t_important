@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 
-public class Shuffle extends Command {
+public class Shuffle implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Shuffle",

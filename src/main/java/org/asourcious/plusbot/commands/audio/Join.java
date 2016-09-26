@@ -11,7 +11,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
-public class Join extends Command {
+public class Join implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Join",

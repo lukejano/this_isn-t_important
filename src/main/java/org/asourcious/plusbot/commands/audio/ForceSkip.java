@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
-public class ForceSkip extends Command {
+public class ForceSkip implements Command {
 
     private CommandDescription description = new CommandDescription(
             "ForceSkip",

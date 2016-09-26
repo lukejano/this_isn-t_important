@@ -10,7 +10,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
-public class Skip extends Command {
+public class Skip implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Skip",

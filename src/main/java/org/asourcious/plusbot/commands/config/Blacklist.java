@@ -13,7 +13,7 @@ import org.asourcious.plusbot.utils.CommandUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Blacklist extends Command {
+public class Blacklist implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Blacklist",

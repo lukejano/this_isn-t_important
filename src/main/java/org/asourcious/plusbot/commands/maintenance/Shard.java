@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 
-public class Shard extends Command {
+public class Shard implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Shard",

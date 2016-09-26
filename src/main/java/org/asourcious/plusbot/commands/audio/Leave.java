@@ -10,7 +10,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 
-public class Leave extends Command {
+public class Leave implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Leave",

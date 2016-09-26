@@ -11,7 +11,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 
 import java.util.LinkedList;
 
-public class Queue extends Command {
+public class Queue implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Queue",

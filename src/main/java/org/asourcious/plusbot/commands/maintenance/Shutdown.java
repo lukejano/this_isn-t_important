@@ -7,7 +7,7 @@ import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 
-public class Shutdown extends Command {
+public class Shutdown implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Shutdown",

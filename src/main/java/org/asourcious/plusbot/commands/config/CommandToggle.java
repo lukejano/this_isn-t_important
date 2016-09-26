@@ -5,7 +5,7 @@ import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.*;
 
-public class CommandToggle extends Command {
+public class CommandToggle implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Command",

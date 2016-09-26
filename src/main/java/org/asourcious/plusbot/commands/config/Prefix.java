@@ -8,7 +8,7 @@ import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
 
-public class Prefix extends Command {
+public class Prefix implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Prefix",

@@ -9,7 +9,7 @@ import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.CommandRegistry;
 import org.asourcious.plusbot.commands.PermissionLevel;
 
-public class CommandInfo extends Command {
+public class CommandInfo implements Command {
 
     private CommandDescription description = new CommandDescription(
             "CommandInfo",

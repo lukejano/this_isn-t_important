@@ -16,7 +16,7 @@ import org.json.JSONException;
 
 import java.util.List;
 
-public class PlaylistCommand extends Command {
+public class PlaylistCommand implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Playlist",

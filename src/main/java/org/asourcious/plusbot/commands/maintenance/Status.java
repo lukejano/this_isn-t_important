@@ -15,7 +15,7 @@ import org.asourcious.plusbot.utils.FormatUtils;
 import java.lang.management.ManagementFactory;
 import java.time.OffsetDateTime;
 
-public class Status extends Command {
+public class Status implements Command {
 
     private CommandDescription description = new CommandDescription(
             "Status",

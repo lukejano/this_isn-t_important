@@ -10,7 +10,7 @@ import org.asourcious.plusbot.commands.PermissionLevel;
 import org.asourcious.plusbot.utils.FormatUtils;
 import org.asourcious.plusbot.web.GoogleSearcher;
 
-public class Google extends Command {
+public class Google implements Command {
 
     private GoogleSearcher searcher;
     private CommandDescription description = new CommandDescription(
