@@ -26,7 +26,8 @@ public enum PermissionLevel {
     public static PermissionLevel getPermissionLevel(User user, Guild guild) {
         if (user.getId().equals(PlusBot.OWNER_ID))
             return PermissionLevel.OWNER;
-
+        if (guild.getOwner().equals(user))
+            return PermissionLevel.SERVER_OWNER;
         if (PermissionUtil.checkPermission(guild, user, Permission.MANAGE_SERVER))
             return PermissionLevel.SERVER_MODERATOR;
 
