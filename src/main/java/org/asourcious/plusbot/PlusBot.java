@@ -2,11 +2,13 @@ package org.asourcious.plusbot;
 
 import net.dv8tion.jda.JDAInfo;
 import net.dv8tion.jda.entities.Guild;
+import net.dv8tion.jda.entities.User;
 import net.dv8tion.jda.player.JDAPlayerInfo;
 import net.dv8tion.jda.player.MusicPlayer;
 import net.dv8tion.jda.utils.SimpleLog;
 import org.asourcious.plusbot.commands.CommandRegistry;
 import org.asourcious.plusbot.commands.audio.*;
+import org.asourcious.plusbot.commands.audio.Queue;
 import org.asourcious.plusbot.commands.config.AutoRole;
 import org.asourcious.plusbot.commands.config.Blacklist;
 import org.asourcious.plusbot.commands.config.CommandToggle;
@@ -27,7 +29,7 @@ import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.time.OffsetDateTime;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,6 +50,7 @@ public class PlusBot {
     private ShardManager shardManager;
     private Configuration configuration;
     private Map<String, MusicPlayer> guildMusicPlayers;
+    private Map<String, List<User>> guildVoteSkips;
 
     private ScheduledExecutorService cacheCleaner;
 
@@ -56,6 +59,7 @@ public class PlusBot {
         configuration = new Configuration();
         shardManager = new ShardManager(this, 1);
         guildMusicPlayers = new ConcurrentHashMap<>();
+        guildVoteSkips = new ConcurrentHashMap<>();
         googleSearcher = new GoogleSearcher();
 
         cacheCleaner = Executors.newSingleThreadScheduledExecutor();
@@ -79,6 +83,7 @@ public class PlusBot {
         plusBot.init();
 
         CommandRegistry.registerCommand("Clear", new Clear());
+        CommandRegistry.registerCommand("ForceSkip", new ForceSkip());
         CommandRegistry.registerCommand("Join", new Join());
         CommandRegistry.registerCommand("Leave", new Leave());
         CommandRegistry.registerCommand("Move", new Move());
@@ -135,7 +140,7 @@ public class PlusBot {
     public MusicPlayer getMusicPlayer(Guild guild) {
         if (!guildMusicPlayers.containsKey(guild.getId())) {
             guildMusicPlayers.put(guild.getId(), new MusicPlayer());
-            guildMusicPlayers.get(guild.getId()).addEventListener(new MusicPlayerEventListener(guild.getPublicChannel()));
+            guildMusicPlayers.get(guild.getId()).addEventListener(new MusicPlayerEventListener(this, guild.getPublicChannel()));
         }
 
         return guildMusicPlayers.get(guild.getId());
@@ -144,6 +149,30 @@ public class PlusBot {
     public void resetMusicPlayer(Guild guild) {
         guildMusicPlayers.remove(guild.getId());
         guild.getAudioManager().setSendingHandler(null);
+    }
+
+    public Guild getGuildForPlayer(MusicPlayer player) {
+        return guildMusicPlayers.entrySet().parallelStream().filter(entry -> entry.getValue().equals(player)).map(entry -> shardManager.getGuildById(entry.getKey())).findAny().orElse(null);
+    }
+
+    public List<User> getVoteSkips(Guild guild) {
+        if (!guildVoteSkips.containsKey(guild.getId()))
+            return Collections.emptyList();
+        return guildVoteSkips.get(guild.getId());
+    }
+
+    public void addVoteSkips(Guild guild, User user) {
+        if (!guildVoteSkips.containsKey(guild.getId())) {
+            guildVoteSkips.put(guild.getId(), new ArrayList<>());
+        }
+        if (!guildVoteSkips.get(guild.getId()).contains(user))
+            guildVoteSkips.get(guild.getId()).add(user);
+    }
+
+    public void clearVoteSkips(Guild guild) {
+        if (guildVoteSkips.containsKey(guild.getId())) {
+            guildVoteSkips.get(guild.getId()).clear();
+        }
     }
 
     private static void setupLogFile(File file) throws IOException {

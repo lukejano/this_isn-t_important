@@ -2,6 +2,7 @@ package org.asourcious.plusbot.managers;
 
 import net.dv8tion.jda.JDA;
 import net.dv8tion.jda.JDABuilder;
+import net.dv8tion.jda.entities.Guild;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.events.PlusBotEventListener;
 
@@ -44,6 +45,10 @@ public class ShardManager {
 
     public List<JDA> getShards() {
         return Collections.unmodifiableList(shards);
+    }
+
+    public Guild getGuildById(String id) {
+        return shards.stream().map(jda -> jda.getGuildById(id)).filter(guild -> guild != null).findAny().orElse(null);
     }
 
     public int getNumberOfGuilds() {
