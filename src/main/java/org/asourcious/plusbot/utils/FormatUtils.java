@@ -35,7 +35,7 @@ public final class FormatUtils {
 
         if (months > 0)  formattedTime.append(months).append(" months, ");
         if (days > 0)    formattedTime.append(days).append( " days, ");
-        if (hours > 0)   formattedTime.append(hours).append(" hours,");
+        if (hours > 0)   formattedTime.append(hours).append(" hours, ");
         if (minutes > 0) formattedTime.append(minutes).append(" minutes, ");
         formattedTime.append(seconds).append(" seconds.");
 
