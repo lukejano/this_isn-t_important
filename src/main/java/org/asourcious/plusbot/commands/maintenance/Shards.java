@@ -36,7 +36,7 @@ public class Shards implements Command {
         List<JDA> shards = shardManager.getShards();
 
         messageBuilder.appendString("Shard information:\n");
-        messageBuilder.appendString("```xl\n");
+        messageBuilder.appendString("```Prolog\n");
         for (int i = 0; i < shards.size(); i++) {
             JDA shard = shards.get(i);
 

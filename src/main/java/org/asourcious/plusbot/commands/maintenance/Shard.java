@@ -32,7 +32,7 @@ public class Shard implements Command {
 
         JDA shard = message.getJDA();
 
-        messageBuilder.appendString("```xl\n I am Shard " + plusBot.getShardManager().getShards().indexOf(shard) + ":"
+        messageBuilder.appendString("```Prolog\n I am Shard " + plusBot.getShardManager().getShards().indexOf(shard) + ":"
                 + " Guilds: " + shard.getGuilds().size()
                 + " Users: " + shard.getUsers().size()
                 + " TC's: " + shard.getTextChannels().size()

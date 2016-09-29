@@ -41,7 +41,7 @@ public class Status implements Command {
 
         MessageBuilder messageBuilder = new MessageBuilder();
         messageBuilder.appendString(PlusBot.NAME + " Status:\n")
-                .appendString("```xl\n")
+                .appendString("```Prolog\n")
                 .appendString("Name: " + PlusBot.NAME + "\n")
                 .appendString("Version " + PlusBot.VERSION + "\n")
                 .appendString("Uptime: " + FormatUtils.getFormattedTime(Statistics.startTime, OffsetDateTime.now()) + "\n")
