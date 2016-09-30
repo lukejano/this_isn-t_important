@@ -47,6 +47,10 @@ public class Play implements Command {
                 channel.sendMessageAsync(FormatUtils.error("Found a playlist. If you want to add a playlist to the audio queue, use the Playlist command"), null);
                 return;
             }
+            if (sources.isEmpty()) {
+                channel.sendMessageAsync("No songs found at the provided URL.", null);
+                return;
+            }
 
             try {
                 musicPlayer.getAudioQueue().add(sources.get(0));
