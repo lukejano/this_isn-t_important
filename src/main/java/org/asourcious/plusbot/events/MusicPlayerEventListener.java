@@ -3,8 +3,7 @@ package org.asourcious.plusbot.events;
 import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.player.MusicPlayer;
 import net.dv8tion.jda.player.hooks.PlayerListenerAdapter;
-import net.dv8tion.jda.player.hooks.events.NextEvent;
-import net.dv8tion.jda.player.hooks.events.SkipEvent;
+import net.dv8tion.jda.player.hooks.events.*;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.utils.FormatUtils;
 
@@ -19,16 +18,7 @@ public class MusicPlayerEventListener extends PlayerListenerAdapter {
     }
 
     @Override
-    public void onNext(NextEvent event) {
-        plusBot.clearVoteSkips(plusBot.getGuildForPlayer((MusicPlayer) event.getPlayer()));
-        String name = FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer());
-
-        if (name != null)
-            statusUpdateChannel.sendMessageAsync("Now playing " + name, null);
-    }
-
-    @Override
-    public void onSkip(SkipEvent event) {
+    public void onPlay(PlayEvent event) {
         plusBot.clearVoteSkips(plusBot.getGuildForPlayer((MusicPlayer) event.getPlayer()));
         String name = FormatUtils.getFormattedSongName((MusicPlayer) event.getPlayer());
 
