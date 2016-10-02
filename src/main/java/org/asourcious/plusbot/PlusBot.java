@@ -116,6 +116,7 @@ public class PlusBot {
         CommandRegistry.registerAlias("Help", "CommandList");
 
         CommandRegistry.registerCommand("Clean", new Clean());
+        CommandRegistry.registerCommand("Eval", new Eval());
         CommandRegistry.registerCommand("Ping", new Ping());
         CommandRegistry.registerCommand("Shard", new Shard());
         CommandRegistry.registerCommand("Shards", new Shards());
