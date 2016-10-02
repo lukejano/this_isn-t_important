@@ -38,7 +38,7 @@ public class Join implements Command {
             return;
         }
 
-        AudioManager audioManager = channel.getJDA().getAudioManager(channel.getGuild());
+        AudioManager audioManager = channel.getGuild().getAudioManager();
 
         if (audioManager.isConnected()) {
             channel.sendMessageAsync("I'm already in a voice channel! Use the move command instead!", null);

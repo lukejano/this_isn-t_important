@@ -30,7 +30,7 @@ public class Leave implements Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        AudioManager audioManager = message.getJDA().getAudioManager(channel.getGuild());
+        AudioManager audioManager = channel.getGuild().getAudioManager();
 
         if (!audioManager.isConnected()) {
             channel.sendMessageAsync(FormatUtils.error("Not connected to a voice channel!"), null);
