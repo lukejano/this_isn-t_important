@@ -73,8 +73,7 @@ public class CommandManager {
             channel.sendTyping();
             executorService.execute(() -> entry.getCommand().execute(plusBot, args.toArray(new String[args.size()]), channel, message));
         } catch (PermissionException ex) {
-            if (PermissionUtil.canTalk(channel))
-                channel.sendMessageAsync("I don't have the necessary permissions for this command!", null);
+            channel.sendMessageAsync("I don't have the necessary permissions for this command!", null);
         }
     }
 
