@@ -3,7 +3,6 @@ package org.asourcious.plusbot.managers;
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
 import net.dv8tion.jda.exceptions.PermissionException;
-import net.dv8tion.jda.utils.PermissionUtil;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.Statistics;
 import org.asourcious.plusbot.commands.CommandRegistry;
