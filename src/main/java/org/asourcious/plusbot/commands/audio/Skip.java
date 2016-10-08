@@ -40,13 +40,13 @@ public class Skip implements Command {
         int numVotes = plusBot.getVoteSkips(channel.getGuild()).size();
 
         MusicPlayer musicPlayer = plusBot.getMusicPlayer(channel.getGuild());
-        if (numVotes >= (int) Math.ceil(channel.getUsers().size() * 0.4)) {
+        if (numVotes >= (int) Math.ceil(voiceChannel.getUsers().size() * 0.4)) {
             channel.sendMessageAsync("Skipping " + FormatUtils.getFormattedSongName(musicPlayer), null);
             musicPlayer.skipToNext();
 
             plusBot.clearVoteSkips(channel.getGuild());
         } else {
-            channel.sendMessageAsync(numVotes + " out of " + (int) Math.ceil(channel.getUsers().size() * 0.4) + " votes to skip.", null);
+            channel.sendMessageAsync(numVotes + " out of " + (int) Math.ceil(voiceChannel.getUsers().size() * 0.4) + " votes to skip.", null);
         }
     }
 
