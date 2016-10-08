@@ -130,6 +130,7 @@ public class PlusBot {
         cacheCleaner.shutdown();
         shardManager.shutdown();
         configuration.shutdown();
+        System.exit(0);
     }
 
     public ShardManager getShardManager() {
