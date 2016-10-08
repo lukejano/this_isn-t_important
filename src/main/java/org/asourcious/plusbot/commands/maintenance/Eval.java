@@ -7,6 +7,7 @@ import org.asourcious.plusbot.commands.Argument;
 import org.asourcious.plusbot.commands.Command;
 import org.asourcious.plusbot.commands.CommandDescription;
 import org.asourcious.plusbot.commands.PermissionLevel;
+import org.asourcious.plusbot.utils.CommandUtils;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -23,8 +24,6 @@ public class Eval implements Command {
 
     @Override
     public String checkArgs(String[] args) {
-        if (args.length != 1)
-            return "The Eval command takes 1 argument";
         return null;
     }
 
@@ -35,10 +34,10 @@ public class Eval implements Command {
         se.put("jda", message.getJDA());
         se.put("guild", channel.getGuild());
         se.put("channel", channel);
+        String command = message.getRawContent().substring(CommandUtils.getPrefixForMessage(plusBot, message).length() + " eval".length()).trim();
         try {
-            channel.sendMessageAsync("Evaluated Successfully:\n ```" + se.eval(args[0]) + "```", null);
-        }
-        catch(Exception e) {
+            channel.sendMessageAsync("Evaluated Successfully:\n ```" + se.eval(command) + "```", null);
+        } catch(Exception e) {
             channel.sendMessageAsync("Exception was thrown: ```" + e + "```", null);
         }
     }
