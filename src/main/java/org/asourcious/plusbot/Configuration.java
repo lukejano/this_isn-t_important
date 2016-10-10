@@ -113,6 +113,18 @@ public class Configuration {
         return Collections.unmodifiableList(new ArrayList<>(guildDisabledCommandsCache.get(guild.getId())));
     }
 
+    public boolean isCommandDisabled(String command, Guild guild) {
+        if (!guildDisabledCommandsCache.containsKey(guild.getId()))
+            return false;
+        return guildDisabledCommandsCache.get(guild.getId()).contains(command.toLowerCase());
+    }
+
+    public boolean isCommandDisabled(String command, TextChannel channel) {
+        if (channelDisabledCommandsCache.containsKey(channel.getId()))
+            return false;
+        return channelDisabledCommandsCache.get(channel.getId()).contains(command.toLowerCase());
+    }
+
     public void addDisabledCommand(String commandName, TextChannel channel) {
         if (!channelDisabledCommandsCache.containsKey(channel.getId()))
             channelDisabledCommandsCache.put(channel.getId(), new ArrayList<>());
