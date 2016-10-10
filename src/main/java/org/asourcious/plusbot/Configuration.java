@@ -120,7 +120,7 @@ public class Configuration {
     }
 
     public boolean isCommandDisabled(String command, TextChannel channel) {
-        if (channelDisabledCommandsCache.containsKey(channel.getId()))
+        if (!channelDisabledCommandsCache.containsKey(channel.getId()))
             return false;
         return channelDisabledCommandsCache.get(channel.getId()).contains(command.toLowerCase());
     }

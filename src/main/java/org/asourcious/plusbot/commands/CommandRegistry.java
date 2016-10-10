@@ -23,7 +23,7 @@ public final class CommandRegistry {
     }
 
     public static CommandEntry getCommand(String name) {
-        return registry.containsKey(name) ? registry.get(name.toLowerCase()) : registry.get(aliasMap.get(name.toLowerCase()));
+        return registry.containsKey(name.toLowerCase()) ? registry.get(name.toLowerCase()) : registry.get(aliasMap.get(name.toLowerCase()));
     }
 
     public static List<CommandEntry> getRegisteredCommands() {

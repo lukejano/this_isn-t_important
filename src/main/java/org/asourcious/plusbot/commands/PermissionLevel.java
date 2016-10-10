@@ -40,9 +40,9 @@ public enum PermissionLevel {
             case EVERYONE:
                 return "Everyone";
             case SERVER_MODERATOR:
-                return "Server moderator";
+                return "Server Moderator";
             case SERVER_OWNER:
-                return "Server owner";
+                return "Server Owner";
             case OWNER:
                 return "Owner";
             default:

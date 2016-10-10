@@ -33,17 +33,17 @@ public class Help implements Command {
         List<CommandRegistry.CommandEntry> commandEntries = CommandRegistry.getRegisteredCommands();
 
         MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.appendString("The current commands available to you in **" + channel.getGuild().getName() + "** are:\n```xl\n");
+        messageBuilder.appendString("Commands:\n```Prolog\n");
 
         for (int i = 0; i < commandEntries.size(); i++) {
             CommandRegistry.CommandEntry entry = commandEntries.get(i);
-            if (plusBot.getConfiguration().getDisabledCommands(channel.getGuild()).contains(entry.getName().toLowerCase()))
-                continue;
-            if (entry.getCommand().getDescription().getRequiredPermissions().getValue() >
-                    PermissionLevel.getPermissionLevel(message.getAuthor(), channel.getGuild()).getValue())
-                continue;
 
-            messageBuilder.appendString((i + 1) + ") " + entry.getName() + "\n");
+            messageBuilder.appendString((i + 1) + ") " + entry.getName() + ": ");
+            if (plusBot.getConfiguration().isCommandDisabled(entry.getName(), channel.getGuild()) || plusBot.getConfiguration().isCommandDisabled(entry.getName(), channel))
+                messageBuilder.appendString(" (Disabled) ");
+            messageBuilder.appendString("required permission: ");
+            messageBuilder.appendString(entry.getCommand().getDescription().getRequiredPermissions().toString());
+            messageBuilder.appendString("\n");
         }
         messageBuilder.appendString("```\n");
         messageBuilder.appendString("If you need any further help, join https://www.discord.gg/dFwYEb7 and ask for assistance");
