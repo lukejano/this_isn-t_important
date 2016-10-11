@@ -2,6 +2,7 @@ package org.asourcious.plusbot.utils;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
+import net.dv8tion.jda.entities.User;
 import org.apache.commons.lang3.StringUtils;
 import org.asourcious.plusbot.PlusBot;
 import org.asourcious.plusbot.commands.CommandRegistry;
@@ -68,5 +69,15 @@ public final class CommandUtils {
 
         return CommandRegistry.hasCommand(name)
                 && CommandRegistry.getCommand(name).getCommand().checkArgs(args.toArray(new String[args.size()])) == null;
+    }
+
+    public static List<User> getTrimmedMentions(Message message) {
+        if (!message.getRawContent().startsWith(message.getJDA().getSelfInfo().getAsMention())) {
+            return message.getMentionedUsers();
+        } else {
+            List<User> mentioned = new ArrayList<>(message.getMentionedUsers());
+            mentioned.remove(0);
+            return mentioned;
+        }
     }
 }

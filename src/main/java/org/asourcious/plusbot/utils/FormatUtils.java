@@ -3,6 +3,7 @@ package org.asourcious.plusbot.utils;
 import net.dv8tion.jda.player.MusicPlayer;
 
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 
@@ -40,5 +41,9 @@ public final class FormatUtils {
         formattedTime.append(seconds).append(" seconds.");
 
         return formattedTime.toString();
+    }
+
+    public static String getFormattedTime(OffsetDateTime time) {
+        return time.format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 }
