@@ -166,10 +166,9 @@ public class PlusBot {
         return guildVoteSkips.get(guild.getId());
     }
 
-    public void addVoteSkips(Guild guild, User user) {
-        if (!guildVoteSkips.containsKey(guild.getId())) {
-            guildVoteSkips.put(guild.getId(), new ArrayList<>());
-        }
+    public void addVoteSkip(Guild guild, User user) {
+        guildVoteSkips.putIfAbsent(guild.getId(), new ArrayList<>());
+
         if (!guildVoteSkips.get(guild.getId()).contains(user))
             guildVoteSkips.get(guild.getId()).add(user);
     }

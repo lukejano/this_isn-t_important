@@ -36,7 +36,7 @@ public class Skip implements Command {
             return;
         }
 
-        plusBot.addVoteSkips(channel.getGuild(), message.getAuthor());
+        plusBot.addVoteSkip(channel.getGuild(), message.getAuthor());
         int numVotes = plusBot.getVoteSkips(channel.getGuild()).size();
 
         MusicPlayer musicPlayer = plusBot.getMusicPlayer(channel.getGuild());
