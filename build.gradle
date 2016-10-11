@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    compile "net.dv8tion:JDA:2.2.1_372"
+    compile "net.dv8tion:JDA:2.2.1_374"
     compile "net.dv8tion:jda-player:0.2.3_24"
     compile "commons-io:commons-io:2.5"
     compile "mysql:mysql-connector-java:6.0.3"
