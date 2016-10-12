@@ -43,7 +43,7 @@ public class UserInfo implements Command {
         if (roles.size() < 20)
             msg += "Roles: **" + roles.toString() + "**\n";
         msg += "Status: **" + target.getOnlineStatus().toString() + "**\n";
-        msg += "Game: **" + target.getCurrentGame() + "**\n";
+        msg += "Game: **" + (target.getCurrentGame() != null ? target.getCurrentGame() : "None") + "**\n";
         msg += "Creation Time: **" + FormatUtils.getFormattedTime(MiscUtil.getCreationTime(target.getId())) + "**\n";
         msg += "Avatar: " + target.getAvatarUrl();
 
