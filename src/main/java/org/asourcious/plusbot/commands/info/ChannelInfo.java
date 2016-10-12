@@ -33,7 +33,7 @@ public class ChannelInfo implements Command {
         String msg = "";
         msg += "Name: **" + target.getName() + "**\n";
         msg += "ID: **" + target.getId() + "**\n";
-        msg += "Topic: **" + target.getTopic() + "**\n";
+        msg += "Topic: **" + (target.getTopic() == null ? target.getTopic() :"None") + "**\n";
         msg += "Position: **" + target.getPosition() + "**\n";
         msg += "Creation Time: **" + FormatUtils.getFormattedTime(MiscUtil.getCreationTime(target.getId())) + "**";
 
