@@ -1,4 +1,4 @@
-package org.asourcious.plusbot.commands.fun;
+package org.asourcious.plusbot.commands.info;
 
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.Role;
@@ -27,13 +27,14 @@ public class UserInfo implements Command {
 
     @Override
     public String checkArgs(String[] args) {
+        if (args.length != 0)
+            return "The UserInfo command doesn't take any arguments";
         return null;
     }
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        List<User> users = CommandUtils.getTrimmedMentions(message);
-        User target = users.get(0);
+        User target = CommandUtils.getTrimmedMentions(message).get(0);
 
         List<String> roles = channel.getGuild().getRolesForUser(target).parallelStream().map(Role::getName).collect(Collectors.toList());
 

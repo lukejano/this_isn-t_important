@@ -15,7 +15,10 @@ import org.asourcious.plusbot.commands.config.Prefix;
 import org.asourcious.plusbot.commands.fun.Google;
 import org.asourcious.plusbot.commands.fun.RIP;
 import org.asourcious.plusbot.commands.fun.Triggered;
-import org.asourcious.plusbot.commands.fun.UserInfo;
+import org.asourcious.plusbot.commands.info.ChannelInfo;
+import org.asourcious.plusbot.commands.info.RoleInfo;
+import org.asourcious.plusbot.commands.info.ServerInfo;
+import org.asourcious.plusbot.commands.info.UserInfo;
 import org.asourcious.plusbot.commands.help.CommandInfo;
 import org.asourcious.plusbot.commands.help.Help;
 import org.asourcious.plusbot.commands.help.Invite;
@@ -110,7 +113,6 @@ public class PlusBot {
         CommandRegistry.registerCommand("Google", new Google(plusBot.googleSearcher));
         CommandRegistry.registerCommand("RIP", new RIP());
         CommandRegistry.registerCommand("Triggered", new Triggered());
-        CommandRegistry.registerCommand("UserInfo", new UserInfo());
         CommandRegistry.registerAlias("Google", "g");
 
         CommandRegistry.registerCommand("CommandInfo", new CommandInfo());
@@ -118,6 +120,12 @@ public class PlusBot {
         CommandRegistry.registerCommand("Invite", new Invite());
         CommandRegistry.registerAlias("Help", "Commands");
         CommandRegistry.registerAlias("Help", "CommandList");
+
+        CommandRegistry.registerCommand("ChannelInfo", new ChannelInfo());
+        CommandRegistry.registerCommand("RoleInfo", new RoleInfo());
+        CommandRegistry.registerCommand("ServerInfo", new ServerInfo());
+        CommandRegistry.registerCommand("UserInfo", new UserInfo());
+        CommandRegistry.registerAlias("ServerInfo", "GuildInfo");
 
         CommandRegistry.registerCommand("Clean", new Clean());
         CommandRegistry.registerCommand("Eval", new Eval());
