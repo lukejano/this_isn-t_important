@@ -27,7 +27,7 @@ public class ServerInfo implements Command {
     @Override
     public String checkArgs(String[] args) {
         if (args.length != 0)
-            return "The GuildInfo command doesn't take any arguments";
+            return "The ServerInfo command doesn't take any arguments";
         return null;
     }
 
