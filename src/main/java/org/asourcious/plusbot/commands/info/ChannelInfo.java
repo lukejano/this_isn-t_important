@@ -28,7 +28,9 @@ public class ChannelInfo implements Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        TextChannel target = message.getMentionedChannels().get(0);
+        TextChannel target = message.getMentionedChannels().size() == 1
+                ? message.getMentionedChannels().get(0)
+                : channel;
 
         String msg = "";
         msg += "Name: **" + target.getName() + "**\n";
