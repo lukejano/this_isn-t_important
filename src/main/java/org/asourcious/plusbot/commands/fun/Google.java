@@ -17,7 +17,7 @@ public class Google implements Command {
             "Google",
             "Returns the result of a google search.",
             "google discord",
-            new Argument[] {},
+            new Argument[] { new Argument("Search term", true) },
             PermissionLevel.EVERYONE
     );
 
