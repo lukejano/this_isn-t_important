@@ -1,6 +1,5 @@
 package org.asourcious.plusbot.commands.help;
 
-import net.dv8tion.jda.MessageBuilder;
 import net.dv8tion.jda.entities.Message;
 import net.dv8tion.jda.entities.TextChannel;
 import org.asourcious.plusbot.PlusBot;
@@ -31,32 +30,18 @@ public class CommandInfo implements Command {
 
     @Override
     public void execute(PlusBot plusBot, String[] args, TextChannel channel, Message message) {
-        CommandRegistry.CommandEntry commandEntry = CommandRegistry.getCommand(args[0]);
-        CommandDescription description = commandEntry.getCommand().getDescription();
+        CommandRegistry.CommandEntry entry = CommandRegistry.getCommand(args[0]);
+        CommandDescription description = entry.getCommand().getDescription();
 
-        MessageBuilder messageBuilder = new MessageBuilder();
+        String msg = "";
+        msg += "```\nCommandInfo for command " + entry.getName() + "\n\n";
+        msg += "Description:\n" + description.getDescription() + "\n\n";
+        msg += "Arguments:\n" + entry.getArgs() + "\n\n";
+        msg += "Example:\n" + description.getExample() + "\n\n";
+        msg += "Aliases:\n" + entry.getAliases().toString() + "\n\n";
+        msg += "Required Permissions:\n" + description.getRequiredPermissions().toString() + "\n```";
 
-        messageBuilder
-                .appendString("```\nCommandInfo for command ")
-                .appendString(commandEntry.getName())
-                .appendString("\n\n")
-                .appendString("Description:\n")
-                .appendString(description.getDescription())
-                .appendString("\n\n")
-                .appendString("Arguments:\n")
-                .appendString(commandEntry.getArgs())
-                .appendString("\n\n")
-                .appendString("Example:\n")
-                .appendString(description.getExample())
-                .appendString("\n\n")
-                .appendString("Aliases:\n")
-                .appendString(commandEntry.getAliases().toString())
-                .appendString("\n\n")
-                .appendString("Required Permissions:\n")
-                .appendString(description.getRequiredPermissions().toString())
-                .appendString("```");
-
-        channel.sendMessageAsync(messageBuilder.build(), null);
+        channel.sendMessageAsync(msg, null);
     }
 
     @Override
